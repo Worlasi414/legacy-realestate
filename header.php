@@ -44,17 +44,5 @@
 	<div id="page" class="container_12">
         <div id="hdr"><a name="top"></a>
             <a href="<?php bloginfo('url'); ?>/" id="logo"><?php esc_html_e( get_bloginfo( 'name' ) ); ?></a>
-            <a href="<?php bloginfo('url'); ?>/" id="book"><?php esc_html_e( get_bloginfo( 'name' ) ); ?></a>
-<?php  wp_nav_menu( array( 'container' => false, 'menu_id' => 'topnav', 'theme_location' => 'topnav' ) );
-if(is_front_page()) { ?>
-<div id="htext">
-<p>The journey you're about to take with Big Mike and my family is not entirely fictitious at all. Learn how our family made over $150 million buying investment- grade life insurance, and what you need to know about the greatest asset you don't already own, don't own enough of, or own incorrectly.</p>
-<h4><a href="#download-investors-4"><strong>Download a FREE Chapter</strong></a></h4>
-</div>
-<div id="hbtns">
-<a href="<?php echo get_permalink(4); ?>" class="btn">Buy The Book</a><a href="<?php echo get_permalink(4); ?>#download-book" class="btn">Download The Book</a><a href="<?php echo get_permalink(4); ?>#silver-package" class="btn bulk">Buy In Bulk</a>
-</div>
-<?php } else { ?>
-			<a href="<?php echo get_permalink(4); ?>" class="btn now">Buy Now</a>
-            <?php } ?>
+<?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'topnav', 'theme_location' => 'topnav' ) ); ?>
         </div>

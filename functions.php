@@ -45,8 +45,8 @@ function progo_setup() {
 	
 	// This theme uses post thumbnails
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'post-thumbnail', 81, 81, true );
-	add_image_size( 'medium', 237, 237, true );
+	add_image_size( 'post-thumbnail', 197, 142, true );
+	add_image_size( 'top', 589, 274, true );
 	
 	// add custom actions
 	add_action( 'admin_init', 'progo_admin_init' );
@@ -57,11 +57,13 @@ function progo_setup() {
 	add_action('wp_print_scripts', 'progo_add_scripts');
 	add_action('wp_print_styles', 'progo_add_styles');
 	add_action( 'admin_notices', 'progo_admin_notices' );
+	add_action('save_post', 'progo_property_save_meta');
 	
 	// add custom filters
 	add_filter( 'default_content', 'progo_set_default_body' );
 	add_filter( 'site_transient_update_themes', 'progo_update_check' );
 	add_filter('body_class','progo_bodyclasses');
+	add_filter( 'post_type_link', 'progo_property_link', 10, 3 );
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -684,7 +686,7 @@ function progo_realestate_init() {
 			'edit_item' => 'Edit Feature',
 			'add_new_item' => 'Add New Feature',
 			'new_item_name' => 'New Feature Name',
-				'menu_name' => 'Rec. Features'
+			'menu_name' => 'Rec. Features'
 		),
 		'public' => true
 	  ));	
@@ -692,13 +694,19 @@ function progo_realestate_init() {
 	register_taxonomy('progo_locations',array('progo_property'), array(
 		'hierarchical' => true,
 		'labels' => array(
-			'name' => 'Locations',
+			'name' => 'Location',
 			'singular_name' => 'Location',
 			'edit_item' => 'Edit Location',
 			'add_new_item' => 'Add New Location',
-			'new_item_name' => 'New Location Name'
+			'new_item_name' => 'New Location Name',
+			'menu_name' => 'Locations',
+			'all_items' => 'All Locations'
 		),
-		'public' => true
+		'public' => true,
+		'rewrite' => array(
+			'slug' => 'properties',
+			'with_front' => false
+		)
 	  ));
 	// add "Property" Custom Post Type
 	register_post_type( 'progo_property',
@@ -722,13 +730,220 @@ function progo_realestate_init() {
 			'menu_position' => 10,
 			'hierarchical' => false,
 			'supports' => array('title','editor','thumbnail','revisions','page-attributes'),
-			'taxonomies' => array( 'progo_recfeatures', 'progo_locations' )
+			'taxonomies' => array( 'progo_recfeatures', 'progo_locations' ),
+			'register_meta_box_cb' => 'progo_property_memberboxes',
+			'has_archive' => true,
+			'rewrite' => array(
+				'slug' => 'properties/%progo_locations%/%id%',
+				'with_front' => false
+			)
 		)
 	);
 }
 add_action( 'init', 'progo_realestate_init' );
 
+function progo_property_memberboxes() {
+	add_meta_box("progo_property_box", "Property Info", "progo_property_box", "progo_property", "normal", "high");
+}
+
+function progo_property_box() {
+	global $post;
+	$custom = get_post_meta($post->ID,'_progo_property');
+	$inf = $custom[0];
+	if($inf=='') $inf = array(
+		'price' => '',
+		'acres' => '',
+		'loc' => array(
+			'addr' => '',
+			'city' => '',
+			'state' => '',
+			'zip' => ''
+		),
+		'featured' => '',
+		'bullets' => '',
+		'brochure' => '',
+		'vimeo' => ''
+	);
+	?>
+    <table>
+    <tr valign="top"><td width="50%">
+    <p><input class="checkbox" type="checkbox" <?php checked($inf[featured], 'yes') ?> name="progo_property[featured]" value="yes" /> <label for="progo_property[featured]"> Featured Property?</label></p>
+    <p><label for="progo_property[price]"><strong>Price</strong></label><br />$ <input type="text" name="progo_property[price]" value="<?php echo absint($inf[price]); ?>" size="18" /></p>
+    <p><label for="progo_property[acres]"><strong>Acreage</strong> <em>(deeded acres)</em></label><br />
+<input type="text" name="progo_property[acres]" value="<?php echo absint($inf[acres]); ?>" size="20" /></p>
+<p><strong>Location</strong><br />
+<label for="progo_loc[addr]">Street Address</label><br />
+<input type="text" name="progo_loc[addr]" value="<?php echo esc_attr($inf[loc][addr]); ?>" size="50" /></p>
+<table>
+<tr valign="top"><td><p><label for="progo_loc[city]">City</label><br />
+<input type="text" name="progo_loc[city]" value="<?php echo esc_attr($inf[loc][city]); ?>" size="23" /></p></td>
+<td><p><label for="progo_loc[state]">State</label><br />
+<input type="text" name="progo_loc[state]" value="<?php echo esc_attr($inf[loc][state]); ?>" size="2" /></p></td>
+<td><p><label for="progo_loc[zip]">Zip</label><br />
+<input type="text" name="progo_loc[zip]" value="<?php echo esc_attr($inf[loc][zip]); ?>" size="10" /></p></td></tr>
+</table>
+<p><label for="progo_property[brochure]"><strong>Brochure</strong></label> &nbsp; <select name="progo_property[brochure]"><option value="">- please select -</option></select></p></td><td width="50%"><label for="progo_property[bullets]">Feature Bullet Points</label><br />
+<textarea cols="50" rows="9" name="progo_property[bullets]"><?php echo esc_attr($inf[bullets]); ?></textarea>
+<p class="howto">Enter bullet points above, 1 per line. Text will be displayed in upper left hand of Property Details page</p></td></tr>
+    </table>
+<?php
+}
+
+function progo_property_save_meta($post_id){
+	// verify if this is an auto save routine. If it is our form has not been submitted, so we dont want
+	// to do anything
+	if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) 
+	return $post_id;
+	
+	// Check permissions
+	if ( $_POST['post_type'] == 'progo_property' ) {
+		if ( !current_user_can( 'edit_page', $post_id ) ) return $post_id;
+	} else {
+	//if ( !current_user_can( 'edit_post', $post_id ) )
+	  return $post_id;
+	}
+	
+	// OK, we're authenticated: we need to find and save the data
+	$inf = $_POST['progo_property'];
+	if ( $inf[featured] != 'yes' ) {
+		$inf[featured] = 'no';
+	}
+	
+	foreach( array('price','acres','brochure') as $f) {
+		$inf[$f] = absint($inf[$f]);
+	}
+	foreach( array('location','bullets') as $f) {
+		$inf[$f] = strip_tags($inf[$f]);
+	}
+	
+	$loc = $_POST['progo_loc'];
+	$inf[loc] = $loc;
+	
+	update_post_meta($post_id, "_progo_property", $inf);
+	return $inf;
+}
+
 function progo_bodyclasses($classes) {
 	if(is_archive() || is_single() ) $classes[] = 'blog';
 	return $classes;
+}
+
+
+/**
+ * based off the wpsc_product_link function
+ * Gets the product link, hooks into post_link
+ * Uses the currently selected, only associated or first listed category for the term URL
+ * If the category slug is the same as the product slug, it prefixes the product slug with "product/" to counteract conflicts
+ *
+ * @access public
+ * @return void
+ * @since RealEstate 1.0
+ */
+function progo_property_link( $permalink, $post, $leavename ) {
+	global $wp_query, $wpsc_page_titles;
+	$term_url = '';
+	$rewritecode = array(
+		'%progo_locations%',
+		'%postname%'
+	);
+	if ( is_object( $post ) ) {
+		// In wordpress 2.9 we got a post object
+		$post_id = $post->ID;
+	} else {
+		// In wordpress 3.0 we get a post ID
+		$post_id = $post;
+		$post = get_post( $post_id );
+	}
+
+	// Only applies to WPSC products, don't stop on permalinks of other CPTs
+	// Fixes http://code.google.com/p/wp-e-commerce/issues/detail?id=271
+	if ($post->post_type != 'progo_property') 
+		return $permalink;
+
+	$permalink_structure = get_option( 'permalink_structure' );
+	// This may become customiseable later
+
+	$our_permalink_structure = "properties/%progo_locations%/%postname%/";
+	// Mostly the same conditions used for posts, but restricted to items with a post type of "wpsc-product "
+
+	if ( '' != $permalink_structure && !in_array( $post->post_status, array( 'draft', 'pending' ) ) ) {
+		$product_categories = wp_get_object_terms( $post_id, 'progo_locations' );
+		$product_category_slugs = array( );
+		foreach ( $product_categories as $product_category ) {
+			$product_category_slugs[] = $product_category->slug;
+		}
+		// If the product is associated with multiple categories, determine which one to pick
+
+		if ( count( $product_categories ) == 0 ) {
+			$category_slug = 'uncategorized';
+		} elseif ( count( $product_categories ) > 1 ) {
+			if ( (isset( $wp_query->query_vars['products'] ) && $wp_query->query_vars['products'] != null) && in_array( $wp_query->query_vars['products'], $product_category_slugs ) ) {
+				$product_category = $wp_query->query_vars['products'];
+			} else {
+				if(isset($wp_query->query_vars['progo_locations']))
+					$link = $wp_query->query_vars['progo_locations'];
+				else
+					$link = $product_categories[0]->slug;
+
+				$product_category = $link;
+			}
+			$category_slug = $product_category;
+			$term_url = get_term_link( $category_slug, 'progo_locations' );
+		} else {
+			// If the product is associated with only one category, we only have one choice
+			if ( !isset( $product_categories[0] ) )
+				$product_categories[0] = '';
+
+			$product_category = $product_categories[0];
+
+			if ( !is_object( $product_category ) )
+				$product_category = new stdClass();
+
+			if ( !isset( $product_category->slug ) )
+				$product_category->slug = null;
+
+			$category_slug = $product_category->slug;
+
+			$term_url = get_term_link( $category_slug, 'progo_locations' );
+		}
+
+		$post_name = $post->post_name;
+	/*
+	if ( in_array( $post_name, $product_category_slugs ) )
+			$post_name = "product/{$post_name}";
+	*/
+
+		if(isset($category_slug) && empty($category_slug)) $category_slug = 'properties';
+
+		$rewritereplace = array(
+			$category_slug,
+			$post_name
+		);
+
+		$permalink = str_replace( $rewritecode, $rewritereplace, $our_permalink_structure );
+		$permalink = user_trailingslashit( $permalink, 'single' );
+		$permalink = home_url( $permalink );
+	}
+	return $permalink;
+}
+
+add_filter( 'pre_get_posts', 'my_get_posts' );
+
+function my_get_posts( $query ) {
+	if ( isset($query->query_vars[progo_locations]) ) {
+		$query->query_vars[post_type] = 'progo_property';
+		$query->query[post_type] = 'progo_property';
+	} elseif ( strpos( $query->query_vars[pagename], 'properties/' ) === 0 ) {
+		$lastslash = strrpos( $query->query_vars[pagename], '/' ) + 1;
+		$pagename = substr( $query->query_vars[pagename], $lastslash );
+		$query->query_vars[progo_property] = $query->query_vars[name] = $query->query[progo_property] = $query->query[name] = $pagename;
+		unset($query->query[pagename]);
+		$query->query_vars[pagename] = '';
+		$query->is_single = 1;
+		$query->is_page = '';
+		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
+	}
+	//wp_die('<pre>'.print_r($query,true).'</pre>');
+
+	return $query;
 }
