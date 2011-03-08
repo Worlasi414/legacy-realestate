@@ -16,7 +16,7 @@
  * Most Action / Filters hooks are set in the progo_setup function, below. overwriting that could cause quite a few things to go wrong.
  */
 
-$content_width = 584;
+$content_width = 581;
 
 global $progo_realestate_db_version;
 $progo_realestate_db_version = "1.0";
@@ -40,8 +40,7 @@ function progo_setup() {
 	
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'topnav' => 'Top Navigation',
-		'footer' => 'Footer "Learn" Links',
+		'topnav' => 'Top Navigation'
 	) );
 	
 	// This theme uses post thumbnails
@@ -684,7 +683,8 @@ function progo_realestate_init() {
 			'singular_name' => 'Feature',
 			'edit_item' => 'Edit Feature',
 			'add_new_item' => 'Add New Feature',
-			'new_item_name' => 'New Feature Name'
+			'new_item_name' => 'New Feature Name',
+				'menu_name' => 'Rec. Features'
 		),
 		'public' => true
 	  ));	
@@ -704,7 +704,7 @@ function progo_realestate_init() {
 	register_post_type( 'progo_property',
 		array(
 			'labels' => array(
-				'name' => 'Property',
+				'name' => 'Properties',
 				'singular_name' => 'Listing',
 				'add_new_item' => 'Add New Listing',
 				'edit_item' => 'Edit Listing',
@@ -713,8 +713,7 @@ function progo_realestate_init() {
 				'search_items' => 'Search Listings',
 				'not_found' =>  'No listings found',
 				'not_found_in_trash' => 'No listings found in Trash', 
-				'parent_item_colon' => '',
-				'menu_name' => 'Property'
+				'parent_item_colon' => ''
 			),
 			'public' => true,
 			'public_queryable' => true,
