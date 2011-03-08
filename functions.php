@@ -58,12 +58,15 @@ function progo_setup() {
 	add_action('wp_print_styles', 'progo_add_styles');
 	add_action( 'admin_notices', 'progo_admin_notices' );
 	add_action('save_post', 'progo_property_save_meta');
+	add_action("manage_posts_custom_column",  "progo_realestate_columns");
 	
 	// add custom filters
 	add_filter( 'default_content', 'progo_set_default_body' );
 	add_filter( 'site_transient_update_themes', 'progo_update_check' );
 	add_filter('body_class','progo_bodyclasses');
-	add_filter( 'post_type_link', 'progo_property_link', 10, 3 );
+	add_filter( 'post_type_link', 'progo_realestate_links', 10, 3 );
+	add_filter("manage_edit-progo_property_columns", "progo_property_edit_columns"); 
+	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -762,7 +765,8 @@ function progo_property_box() {
 		'featured' => '',
 		'bullets' => '',
 		'brochure' => '',
-		'vimeo' => ''
+		'vimeo' => '',
+		'gall' => ''
 	);
 	?>
     <table>
@@ -782,7 +786,26 @@ function progo_property_box() {
 <td><p><label for="progo_loc[zip]">Zip</label><br />
 <input type="text" name="progo_loc[zip]" value="<?php echo esc_attr($inf[loc][zip]); ?>" size="10" /></p></td></tr>
 </table>
-<p><label for="progo_property[brochure]"><strong>Brochure</strong></label> &nbsp; <select name="progo_property[brochure]"><option value="">- please select -</option></select></p></td><td width="50%"><label for="progo_property[bullets]">Feature Bullet Points</label><br />
+<p><label for="progo_property[brochure]"><strong>Brochure</strong></label><br />
+<select name="progo_property[brochure]" style="width:97%"><option value="">- please select -</option></select></p>
+<p class="howto"><a href="media-new.php" target="_blank">Upload a new file</a></p>
+<p><label for="progo_property[vimeo]"><strong>Vimeo Video URL</strong> <em>( <?php
+	if ( strpos($inf[vimeo],'http://vimeo.com/')===0 && strlen($inf[vimeo])==25 ) {
+		echo '<a href="'. esc_url($inf[vimeo]) .'" target="_blank">view video</a>';
+	} else {
+		echo 'http://vimeo.com/########';
+	}
+?> )</em></label><br />
+<input type="text" name="progo_property[vimeo]" value="<?php echo esc_url($inf[vimeo]); ?>" size="50" /></p>
+<p><label for="progo_property[gall]"><strong>Gallery</strong></label><br />
+<select name="progo_property[gall]" style="width:97%"><option value="">- please select -</option><?php
+    global $nggdb;
+	$gallerylist = $nggdb->find_all_galleries();//'gid', 'asc', TRUE, 25, 0, false);
+	$oot = '';
+	foreach($gallerylist as $g) $oot = '<option value="'. $g->gid .'"'. ($g->gid==$inf[gall] ? ' selected="selected"' : '') .'>'. $g->title .'</option>'. $oot;
+	echo $oot;
+	?></select></p>
+<p class="howto"><a href="admin.php?page=nggallery-add-gallery#addgallery" target="_blank">Create a new Gallery</a></p></td><td width="50%"><label for="progo_property[bullets]">Feature Bullet Points</label><br />
 <textarea cols="50" rows="9" name="progo_property[bullets]"><?php echo esc_attr($inf[bullets]); ?></textarea>
 <p class="howto">Enter bullet points above, 1 per line. Text will be displayed in upper left hand of Property Details page</p></td></tr>
     </table>
@@ -808,8 +831,8 @@ function progo_property_save_meta($post_id){
 	if ( $inf[featured] != 'yes' ) {
 		$inf[featured] = 'no';
 	}
-	
-	foreach( array('price','acres','brochure') as $f) {
+	$inf[vimeo] = esc_url($inf[vimeo]);
+	foreach( array('price','acres','brochure','gall') as $f) {
 		$inf[$f] = absint($inf[$f]);
 	}
 	foreach( array('location','bullets') as $f) {
@@ -839,7 +862,7 @@ function progo_bodyclasses($classes) {
  * @return void
  * @since RealEstate 1.0
  */
-function progo_property_link( $permalink, $post, $leavename ) {
+function progo_realestate_links( $permalink, $post, $leavename ) {
 	global $wp_query, $wpsc_page_titles;
 	$term_url = '';
 	$rewritecode = array(
@@ -908,10 +931,6 @@ function progo_property_link( $permalink, $post, $leavename ) {
 		}
 
 		$post_name = $post->post_name;
-	/*
-	if ( in_array( $post_name, $product_category_slugs ) )
-			$post_name = "product/{$post_name}";
-	*/
 
 		if(isset($category_slug) && empty($category_slug)) $category_slug = 'properties';
 
@@ -927,9 +946,7 @@ function progo_property_link( $permalink, $post, $leavename ) {
 	return $permalink;
 }
 
-add_filter( 'pre_get_posts', 'my_get_posts' );
-
-function my_get_posts( $query ) {
+function progo_realestate_get_posts( $query ) {
 	if ( isset($query->query_vars[progo_locations]) ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query[post_type] = 'progo_property';
@@ -946,4 +963,53 @@ function my_get_posts( $query ) {
 	//wp_die('<pre>'.print_r($query,true).'</pre>');
 
 	return $query;
+}
+
+function progo_realestate_columns($column){
+	global $post;
+	
+	switch ($column) {
+		case "loc":
+			$tags = get_the_terms($post->ID,'progo_locations');
+			// http://www.ninthlink.net/mwp/wp-admin/edit.php?progo_locations=gold-west-country&post_type=progo_property
+			$onedone = false;
+			$tagz = '';
+			foreach($tags as $t) {
+			if($onedone) $tagz .= ", ";
+			$tagz .= '<a href="edit.php?progo_locations='. esc_attr($t->slug) .'&post_type=progo_property">'. esc_html($t->name) .'</a>';
+			$onedone = true;
+			}
+			echo $tagz;
+			break;
+		case "price":
+			$custom = get_post_meta($post->ID,'_progo_property');
+			echo '$'. number_format( (float) $custom[0][price] );
+			break;
+		case "acres":
+			$custom = get_post_meta($post->ID,'_progo_property');
+			echo number_format( (float) $custom[0][acres] );
+			break;
+		case "feat":
+			$custom = get_post_meta($post->ID,'_progo_property');
+			if ( $custom[0][featured] == 'yes' ) {
+				echo '<img src="'. get_bloginfo('template_url') .'/images/star.png" alt="yes" />';
+			} else {
+				echo '<img src="'. get_bloginfo('template_url') .'/images/star_off.png" alt="no" />';
+			}
+			break;
+	}
+}
+
+function progo_property_edit_columns($columns){
+  $columns = array(
+    "cb" => "<input type=\"checkbox\" />",
+    "title" => "Title",
+    "feat" => "Featured",
+    "price" => "Price",
+    "acres" => "Acreage",
+    "loc" => "Location",
+    "date" => "Date"
+  );
+ 
+  return $columns;
 }
