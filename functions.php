@@ -177,7 +177,7 @@ function progo_custom_login_url() {
 	if ( get_option( 'progo_logo' ) != '' ) {
 		return get_bloginfo( 'url' );
 	} // else
-	return 'http://www.progothemes.com';
+	return 'http://www.progo.com';
 }
 endif;
 if ( ! function_exists( 'progo_site_settings_page' ) ):
@@ -639,7 +639,7 @@ function progo_update_check($data) {
 		'user-agent' => 'WordPress/'. $wp_version .'; '. get_bloginfo('url')
 	);
 
-	$raw_response = wp_remote_post('http://www.progothemes.com/updatecheck/', $checkplz);
+	$raw_response = wp_remote_post('http://www.progo.com/updatecheck/', $checkplz);
 	
 	if (!is_wp_error($raw_response) && ($raw_response['response']['code'] == 200))
 		$response = unserialize($raw_response['body']);
