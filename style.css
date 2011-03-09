@@ -108,8 +108,9 @@ body.home #logo { top: 79px; left: 264px; background-image: url(images/logoHome.
 
 ul#topnav { position: absolute; top: 0; right: 2px; float: left; height: 54px; list-style: none; margin: 0; background:url(images/hdr_li.png) repeat-y 100% 0; padding-right: 2px; }
 ul#topnav li { float: left; height: 54px; padding-left: 2px; background: url(images/hdr_li.png) repeat-y 0 0; }
-ul#topnav li a { float: left; padding: 18px 24px; color: #fff; text-transform: uppercase; font-size: 12px; font-weight: bold; text-decoration:none }
+ul#topnav li a { float: left; padding: 18px 24px; color: #392412; text-transform: uppercase; font-size: 12px; font-weight: bold; text-decoration:none }
 #topnav li.current-menu-item a, body.blog #topnav li#menu-item-34 a, #topnav li.current-page-ancestor a, #topnav li a:hover { background: url(images/hdr_on.png) repeat-x 0 0; }
+ul#topnav ul { display: none; }
 
 a.btn { float: left; width: 216px; height: 41px; padding: 17px 0 5px; background: url(images/hdr_btn.png) no-repeat 0 0; color: #285754; text-transform: uppercase; font: bold 18px/24px Arial, Helvetica, sans-serif; text-align: center; text-decoration:none }
 #hdr a.btn.now { position:absolute; left: 700px; top: 118px; }
