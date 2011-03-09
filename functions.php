@@ -302,18 +302,18 @@ function progo_realestate_widgets() {
 		'id' => 'sidebar',
 		'description' => 'For the right column on the site\'s subpages',
 		'before_widget' => '<div class="block %1$s %2$s">',
-		'after_widget' => '</div><div class="e"></div></div>',
-		'before_title' => '<h3 class="title"><span class="spacer">',
-		'after_title' => '</span></h3><div class="inside">'
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="title">',
+		'after_title' => '</h3>'
 	));
 	register_sidebar(array(
 		'name' => 'Blog Sidebar',
 		'id' => 'blogside',
 		'description' => 'Right Column for Blog area',
 		'before_widget' => '<div class="block %1$s %2$s">',
-		'after_widget' => '</div><div class="e"></div></div>',
-		'before_title' => '<h3 class="title"><span class="spacer">',
-		'after_title' => '</span></h3><div class="inside">'
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="title">',
+		'after_title' => '</h3>'
 	));
 	register_sidebar(array(
 		'name' => 'Footer',
@@ -329,18 +329,18 @@ function progo_realestate_widgets() {
 		'id' => 'contact',
 		'description' => 'Right Column for Contact page',
 		'before_widget' => '<div class="block %1$s %2$s">',
-		'after_widget' => '</div><div class="e"></div></div>',
-		'before_title' => '<h3 class="title"><span class="spacer">',
-		'after_title' => '</span></h3><div class="inside">'
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="title">',
+		'after_title' => '</h3>'
 	));
 	register_sidebar(array(
 		'name' => 'Newsletter Signup',
 		'id' => 'signup',
 		'description' => 'Widget-powered area on bottom left of Homepage',
 		'before_widget' => '<div class="block %1$s %2$s">',
-		'after_widget' => '</div><div class="e"></div></div>',
-		'before_title' => '<h3 class="title"><span class="spacer">',
-		'after_title' => '</span></h3><div class="inside">'
+		'after_widget' => '</div>',
+		'before_title' => '<h3 class="title">',
+		'after_title' => '</h3>'
 	));
 	
 	$included_widgets = array( 'Social' );

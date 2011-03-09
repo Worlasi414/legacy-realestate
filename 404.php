@@ -8,7 +8,6 @@
  */
 
 get_header(); ?>
-        <div id="container" class="container_12">
 			<div id="main" role="main" class="grid_8">
 
 			<div id="post-0" class="post error404 not-found">
@@ -20,7 +19,6 @@ get_header(); ?>
 			</div><!-- #post-0 -->
 
 		</div><!-- #main -->
-	</div><!-- #container -->
 	<script type="text/javascript">
 		// focus on search field after it has loaded
 		document.getElementById('s') && document.getElementById('s').focus();

@@ -10,7 +10,6 @@
 get_header();
 $options = get_option('progo_options');
 ?>
-        <div id="container" class="container_12">
 			<div id="main" role="main" class="grid_7">
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -39,6 +38,4 @@ foreach($fam as $t) {
 <?php endwhile; ?>
 </div><!-- #main -->
 <?php get_sidebar('blog'); ?>
-</div><!-- #container -->
-<!-- #THISISTHEDEFAULTPAGE -->
 <?php get_footer(); ?>

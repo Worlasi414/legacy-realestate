@@ -145,9 +145,7 @@
 				<?php endif; ?>
 				<?php edit_post_link( __( 'Edit Post', 'progo' ), ' : ', '' ); ?>
                 </div>
-                <div class="alignright">
- <?php if (function_exists('sharethis_button')) { sharethis_button(); } ?>
- </div>
+                <div class="alignright"><?php if (function_exists('sharethis_button')) { sharethis_button(); } ?></div>
 			</div><!-- .entry-utility -->
 		</div><!-- #post-## -->
 

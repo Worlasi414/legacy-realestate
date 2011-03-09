@@ -8,7 +8,6 @@
  */
 
 get_header(); ?>
-    <div id="container" class="container_12">
         <div id="main" role="main" class="grid_8">
 
 <?php if ( have_posts() ) : ?>
@@ -30,7 +29,5 @@ get_header(); ?>
 				</div><!-- #post-0 -->
 <?php endif; ?>
 			</div><!-- #main -->
-		</div><!-- #container -->
-
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>

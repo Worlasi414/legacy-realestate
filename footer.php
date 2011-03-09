@@ -10,14 +10,15 @@
  * @since RealEstate 1.0
  */
 ?>
-	</div><!-- #page -->
-</div><!-- #wrap -->
+	</div><!-- #container -->
 <div id="fwrap">
 	<ul id="ftr" class="container_12">
     <?php dynamic_sidebar('footer'); ?>
 	</ul><!-- #ftr -->
 </div><!-- #fwrap -->
-
+	</div><!-- #page -->
+</div><!-- #wrap -->
+</div></div>
 <?php
 	/* Always have wp_footer() just before the closing </body>
 	 * tag of your theme, or you will break many plugins, which

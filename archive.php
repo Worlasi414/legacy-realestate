@@ -13,7 +13,6 @@
  */
 
 get_header(); ?>
-        <div id="container" class="container_12">
 			<div id="main" role="main" class="grid_7">
 
 <?php
@@ -56,5 +55,4 @@ get_header(); ?>
 			</div><!-- #main -->
 
 <?php get_sidebar('blog'); ?>
-		</div><!-- #container -->
 <?php get_footer(); ?>

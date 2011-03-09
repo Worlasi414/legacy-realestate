@@ -24,9 +24,12 @@ a img { border: none;}
 body, input, textarea, .pingback a.url { font-family: Arial, Helvetica, sans-serif; }
 
 /* =Layout */
-body { background: #fff url(images/bg.png) repeat-x 0 0;}
-#page { float: left; }
-#container { float: left; margin: 0; background: url(images/LightGrey/main.png) repeat-x 0 0; position: relative;}
+body { background: #fff url(images/bg-bottom.jpg) repeat 50% 802px;}
+#fx, #sfx { float: left; width: 100%; min-width: 982px; height: 802px; background: #fff url(images/randombg.php) no-repeat 50% 133px;  }
+#sfx { height: 133px; background: url(images/bg-top.jpg) repeat-x 50% 0; }
+#wrap { width: 982px; margin: 0 auto; }
+#page { float: left; width: 100%; }
+#container { float: left; padding: 0 11px; background: url(images/page-mid.png) repeat-y 0 0; position: relative;}
 #main { float:left; }
 
 #topimg { float: left; width: 650px; height: 413px; }
@@ -95,20 +98,11 @@ a { color: #47A59F }
 .screen-reader-text { position: absolute; left: -9000px; }
 
 /* hdr */
-#hdr { float: left; width: 100%; height: 257px; position: relative; }
-#book, #logo { display: block; width: 217px; height: 233px; text-indent: -999em; background: url(images/hdr_book.jpg) no-repeat 0 0; position: absolute; top: 0; left: 6px; }
-#logo { width: 374px; height: 148px; background-image: url(images/logo.png); top: 71px; left: 241px; }
+#hdr { float: left; width: 982px; height: 146px; position: relative; background:url(images/page-top.png) no-repeat 0 100%; }
 
-body.home { background:url(images/bg-home.jpg) no-repeat 50% 0 }
-body.home #hdr { height: 525px; }
-body.home #book { width: 298px; height: 334px; top: 78px; left: 705px; background-image: url(images/hdr_bookHome.jpg) }
-body.home #logo { top: 79px; left: 264px; background-image: url(images/logoHome.png) }
-
-#htext { position: absolute; display: block; width: 288px; top: 225px; left: 352px; color: #241f1f }
-
-ul#topnav { position: absolute; top: 0; right: 2px; float: left; height: 54px; list-style: none; margin: 0; background:url(images/hdr_li.png) repeat-y 100% 0; padding-right: 2px; }
-ul#topnav li { float: left; height: 54px; padding-left: 2px; background: url(images/hdr_li.png) repeat-y 0 0; }
-ul#topnav li a { float: left; padding: 18px 24px; color: #392412; text-transform: uppercase; font-size: 12px; font-weight: bold; text-decoration:none }
+ul#topnav { position: absolute; top: 96px; left: 334px; float: left; list-style: none; margin: 0; padding:0; }
+ul#topnav li { float: left; height: 21px; }
+ul#topnav li a { float: left; padding: 0 22px; color: #392412; font: italic 14px/21px Tahoma, Arial; text-decoration:none }
 #topnav li.current-menu-item a, body.blog #topnav li#menu-item-34 a, #topnav li.current-page-ancestor a, #topnav li a:hover { background: url(images/hdr_on.png) repeat-x 0 0; }
 ul#topnav ul { display: none; }
 
@@ -278,7 +272,7 @@ label.cb { float:left; margin: 0 0 15px 19px; font-weight: bold; }
 #main input.wpsc_buy_button { float: left; width: 168px; height: 45px; border: none; cursor:pointer; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight:bold; color: #fff; background:url(images/buybutton.png) no-repeat 0 0; text-transform:uppercase }
 
 /* footer */
-#fwrap { float:left; width: 100%; min-width: 960px; height: 237px; background: url(images/fwrap.png) repeat-x 0 0; margin-top: 50px }
+#fwrap { float:left; width: 982px; background: url(images/page-end.png) no-repeat 0 0; }
 #ftr { list-style: none; margin: 0 auto; padding: 0; }
 #ftr, #ftr a { color: #fff; }
 #ftr li { float: left; margin: 11px 0; padding: 0 25px; list-style: none; background: url(images/ful.png) repeat-y 100% 0; height: 177px; }
