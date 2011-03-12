@@ -54,6 +54,27 @@ function relative_time(time_value) {
   }
 }
 
+function propJS($) {
+	$('#main .tab').hide();
+	$('#tabs a').click(function() {
+		$(this).parent().addClass('on').siblings('.on').removeClass();
+		$($(this).attr('href')).show().siblings('.tab:visible').hide();
+		return false;
+	}).eq(0).click();
+	
+	$('#mtabs a').click(function() {
+		$(this).parent().addClass('on').siblings('.on').removeClass();
+		$($(this).attr('href')).addClass('on').siblings('.on').removeClass('on');
+		return false;
+	});
+	
+	$('#mphotos').append('<img id="mphoto" />');
+	$('#mphotos a').click(function() {
+		$('#mphoto').attr('src',$(this).attr('href'));
+		return false;
+	}).eq(0).click().siblings(':gt(5)').hide();
+}
+
 jQuery(function($) {
 	$('#edit').change(function() {
 		$('#billing,#shipping').toggle();
@@ -71,4 +92,8 @@ jQuery(function($) {
 		$('#'+show).show().siblings('fieldset').hide();
 		$(this).parent().siblings('label').children('input:checkbox').attr('checked',false);
 	});
+	
+	if($('#main').hasClass('prop')) {
+		propJS($);
+	}
 });

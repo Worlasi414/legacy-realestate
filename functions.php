@@ -67,6 +67,7 @@ function progo_setup() {
 	add_filter( 'post_type_link', 'progo_realestate_links', 10, 3 );
 	add_filter("manage_edit-progo_property_columns", "progo_property_edit_columns"); 
 	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
+	add_filter('the_content', 'progo_realestate_content_filter');
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -111,6 +112,28 @@ function progo_posted_in() {
 		get_permalink(),
 		the_title_attribute( 'echo=0' )
 	);
+}
+endif;
+if ( ! function_exists( 'progo_realestate_content_filter' ) ):
+function progo_realestate_content_filter($content) {
+	if ( get_post_type() == 'progo_property' ) {
+		// prep work to separate H5s into TABS
+		$tabs = explode('<h5>',$content);
+		$tabbed = '<div id="propcontent">';
+		$switch = '</div><ul id="tabs">';
+		foreach ( $tabs as $t ) {
+			if ( strlen($t) > 0 ) {
+				$h5c = strpos( $t, '</h5>' );
+				$title = wp_kses( substr( $t, 0, $h5c ), array() );
+				$anchor = sanitize_title_with_dashes($title);
+				$body = substr( $t, $h5c + 5 );
+				$tabbed .= '<div id="'. $anchor .'" class="tab"><a name="'. $anchor .'"></a>'. $body .'</div>';
+				$switch .= '<li><a href="#'. $anchor .'">'. $title .'</a></li>';
+			}
+		}
+		$content = $tabbed . $switch .'</ul>';
+	}
+	return $content;
 }
 endif;
 /********* Back-End Functions *********/
@@ -737,7 +760,7 @@ function progo_realestate_init() {
 			'register_meta_box_cb' => 'progo_property_memberboxes',
 			'has_archive' => true,
 			'rewrite' => array(
-				'slug' => 'properties/%progo_locations%/%id%',
+				'slug' => 'properties/%progo_locations%/',
 				'with_front' => false
 			)
 		)
@@ -788,7 +811,7 @@ function progo_property_box() {
 </table>
 <p><label for="progo_property[brochure]"><strong>Brochure</strong></label><br />
 <select name="progo_property[brochure]" style="width:97%"><option value="">- please select -</option></select></p>
-<p class="howto"><a href="media-new.php" target="_blank">Upload a new file</a></p>
+<p class="howto"><a title="Add Media" class="thickbox" href="media-upload.php?post_id=<?php echo $post->ID; ?>&amp;TB_iframe=1&amp;width=640&amp;height=281">Upload a new file</a>. If you have just uploaded a new file, first <a href="#save" onclick="jQuery('#save,#save-post').click(); return false;">Save</a> the page to see your new file in the dropdown.</p>
 <p><label for="progo_property[vimeo]"><strong>Vimeo Video URL</strong> <em>( <?php
 	if ( strpos($inf[vimeo],'http://vimeo.com/')===0 && strlen($inf[vimeo])==25 ) {
 		echo '<a href="'. esc_url($inf[vimeo]) .'" target="_blank">view video</a>';
@@ -959,7 +982,19 @@ function progo_realestate_get_posts( $query ) {
 		$query->is_single = 1;
 		$query->is_page = '';
 		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
+	} elseif ( $query->query_vars[pagename] == 'properties' ) {
+		$query->query_vars[post_type] = 'progo_property';
+		$query->query_vars[meta_query] = array();
+		//unset($query->tax_query);
+		unset($query->is_page);
+		unset($query->query_vars[page]);
+		$query->is_page = $query->is_singular = $query->query_vars[pagename] = '';
+		$query->is_archive = $query->is_post_type_archive = $query->parsed_tax_query = 1;
+		$query->query = array(
+			'post_type' => 'progo_property'
+		);
 	}
+	
 	//wp_die('<pre>'.print_r($query,true).'</pre>');
 
 	return $query;

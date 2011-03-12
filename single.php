@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * The Template for displaying single Properties.
  *
  * @package ProGo
  * @subpackage RealEstate

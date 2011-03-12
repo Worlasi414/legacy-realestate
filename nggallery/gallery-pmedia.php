@@ -17,7 +17,7 @@ Follow variables are useable :
 <div class="ngg-galleryoverview" id="<?php echo $gallery->anchor ?>">
 	<!-- Thumbnails -->
 	<?php foreach ( $images as $image ) : ?>
-			<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->description ?>" <?php echo $image->thumbcode ?> >
+			<a href="<?php echo $image->imageURL ?>" title="<?php echo $image->description ?>" class="thm">
 				<?php if ( !$image->hidden ) { ?>
 				<img title="<?php echo $image->alttext ?>" alt="<?php echo $image->alttext ?>" src="<?php echo $image->thumbnailURL ?>" <?php echo $image->size ?> />
 				<?php } ?>

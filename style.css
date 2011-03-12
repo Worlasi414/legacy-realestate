@@ -126,7 +126,6 @@ h1.entry-title, h2.entry-title, h1.entry-title a, h2.entry-title a { font-size: 
 h1.entry-title, h2.entry-title { margin-bottom: 9px }
 .entry a { text-decoration: none; }
 body.wpsc-shopping-cart .entry { margin: 17px 10px 0 0; padding: 0; }
-#main .entry p:last-child { margin-bottom: 12px;}
 .entry fieldset { border: 1px solid #e7e7e7; margin: 0 0 24px 0; padding: 24px;}
 .entry fieldset legend { background: #fff; color: #000; font-weight: bold; padding: 0 24px;}
 .entry input { margin: 0 0 24px 0;}
@@ -274,9 +273,9 @@ label.cb { float:left; margin: 0 0 15px 19px; font-weight: bold; }
 /* footer */
 #fwrap { float:left; width: 982px; background: url(images/page-end.png) no-repeat 0 0; }
 #ftr { list-style: none; margin: 0 auto; padding: 0; }
-#ftr, #ftr a { color: #fff; }
+#ftr, #ftr a { color: #333; }
 #ftr li { float: left; margin: 11px 0; padding: 0 25px; list-style: none; background: url(images/ful.png) repeat-y 100% 0; height: 177px; }
-#ftr h3.title { color: #fff; font-weight: normal; margin: 10px 0 }
+#ftr h3.title { color: #333; font-weight: normal; margin: 10px 0 }
 #ftr ul { margin: 0; padding: 0; list-style: none; }
 #ftr li li { float: none; background: none; height: auto; padding: 0; margin: 0; }
 #ftr li li a { text-decoration: none; }
@@ -302,3 +301,45 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 	/* For IE 5.5 - 7 */
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color='#000000');
 }
+
+/* property listings */
+#main.prop { float: left; width: 924px; padding: 467px 0 0; position: relative; margin-left: 17px; font-family: Georgia, "Times New Roman", Times, serif;  }
+#propcontent { float: right; width: 580px; margin-right: 30px; }
+#tabs { float:left; width: 241px; margin: 0 0 0 19px; padding: 0; list-style: none; border-top: 1px dashed #beb9ae }
+#tabs li { padding: 8px 7px; border-bottom: 1px dashed #beb9ae }
+#tabs li a { color: #4B2C13; text-decoration: none; }
+#tabs li.on a { color: #A45933; font-weight: bold; }
+
+#pinfo { position: absolute; top: 0; left: 0; width: 247px; height: 438px; padding: 0 35px 0 16px; background: url(images/prop-topright.png) no-repeat 0 0; }
+#pinfo h3 { font: 22px/24px Georgia, "Times New Roman", Times, serif; color: #ae4f24; margin: 12px 0 2px; width: 274px }
+#pinfo table { font: 13px/140% Georgia, "Times New Roman", Times, serif; }
+#pinfo ul { font: 11px/160% Arial, Helvetica, sans-serif;  }
+#rec { float: left; width: 247px; border-top: 1px dashed #beb9ae; border-bottom: 1px dashed #beb9ae; margin: 20px 0; padding: 0; list-style: none; }
+#rec li { float: left; }
+#rec li a { float: left; display: block; width: 35px; height: 35px; background: url(images/feature_icons.gif) no-repeat 0 0; text-indent:-999em }
+#rec li#f10 a { background-position: -35px 0; }
+#rec li#f12 a { background-position: -70px 0; }
+#rec li#f4 a { background-position: -105px 0; }
+#rec li#f7 a { background-position: -140px 0; }
+#rec li#f14 a { background-position: -175px 0; }
+#rec li#f6 a { background-position: -210px 0; }
+#rec li#f13 a { background-position: -245px 0; }
+#rec li#f5 a { background-position: -280px 0; }
+#rec li#f11 a { background-position: -315px 0; }
+
+#plnx { position: absolute; left: 16px; bottom:31px; } 
+#plnx a { float: left; width: 188px; height: 21px; background: url(images/plnx-email.png) no-repeat 0 0; color: #fff; font: bold 10px/14px Arial, Helvetica, sans-serif; text-transform: uppercase; padding: 5px 0 0 29px; text-decoration: none; margin-top: 7px }
+
+#pmedia { display: block; width: 606px; height: 439px; padding: 0 0 0 14px; position: absolute; top: 0; right: 0; background: url(images/pmedia1.png) no-repeat 0 0; }
+#mtabs { float: left; width: 620px; height: 21px; margin: 0; padding: 0; list-style: none; }
+#mtabs li { float: left; }
+#pmedia .mtab { display: none; }
+#pmedia .mtab.on { display: block; width: 589px; height: 373px; overflow: hidden; float: left; margin-top: 10px; position: relative }
+#pmedia .mtab.on#mvideo { height: 390px; margin-top: 1px; }
+#mframe { display: block; width: 589px; height: 373px; z-index: 2; position: absolute; top: 0; left: 0; background: url(images/frame373.png) no-repeat 0 0; }
+#main #pmedia .ngg-galleryoverview { margin-left: 0; width: 589px; height: 71px; position: absolute; left: 0; bottom: 0; background: url(images/framend.png) no-repeat 0 0; z-index:3; }
+
+.navigation { float: left; width: 914px; margin: 11px 18px; }
+.navigation div { float: left; }
+.navigation div.next { float: right; }
+.navigation a { font: bold 10px/13px Arial, Helvetica, sans-serif; color: #392412; text-decoration: none; }
