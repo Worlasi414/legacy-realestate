@@ -12,6 +12,12 @@
 ?>
 	</div><!-- #container -->
 <div id="fwrap">
+<div id="ftxt">
+<?php
+$options = get_option( 'progo_options' );
+esc_html_e($options['companyinfo']);
+?>
+</div>
 	<ul id="ftr" class="container_12">
     <?php dynamic_sidebar('footer'); ?>
 	</ul><!-- #ftr -->

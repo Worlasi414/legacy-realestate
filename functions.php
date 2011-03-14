@@ -18,9 +18,6 @@
 
 $content_width = 581;
 
-global $progo_realestate_db_version;
-$progo_realestate_db_version = "1.0";
-
 /** Tell WordPress to run progo_setup() when the 'after_setup_theme' hook is run. */
 add_action( 'after_setup_theme', 'progo_setup' );
 
@@ -68,6 +65,7 @@ function progo_setup() {
 	add_filter("manage_edit-progo_property_columns", "progo_property_edit_columns"); 
 	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
 	add_filter('the_content', 'progo_realestate_content_filter');
+	add_filter('pre_get_posts','progo_searchposts');
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -157,20 +155,11 @@ function progo_admin_menu_cleanup() {
 	
 	
 	add_menu_page( 'Site Settings', 'ProGo Themes', 'edit_theme_options', 'progo_site_settings', 'progo_site_settings_page', get_bloginfo( 'template_url' ) .'/images/logo_menu.png', 5 );
-	add_submenu_page( 'progo_site_settings', 'Store Settings', 'Store Settings', 'edit_theme_options', 'wpsc-settings', 'options-general.php' );
+	add_submenu_page( 'progo_site_settings', 'Widgets', 'Widgets', 'edit_theme_options', 'widgets.php' );
 	add_submenu_page( 'progo_site_settings', 'Menus', 'Menus', 'edit_theme_options', 'nav-menus.php' );
 	
 	$submenu['progo_site_settings'][0][0] = 'Site Settings';
 	
-	// and remove STORE SALES and STORE UPGRADES from DASHBOARD menu?
-	if ( isset( $submenu['index.php'] ) ) {
-		foreach ( $submenu['index.php'] as $ind => $sub ) {
-			// sub[0] could change language so check the callback fn instead
-			if ( in_array( $sub[2], array( 'wpsc-sales-logs', 'wpsc-ugrades' ) ) ) {
-				unset($submenu['index.php'][$ind]);
-			}
-		}
-	}
 	// add extra line
 	$menu[6] = $menu[4];
 	
@@ -384,8 +373,13 @@ if ( ! function_exists( 'progo_add_scripts' ) ):
  */
 function progo_add_scripts() {
 	if ( !is_admin() ) {
-		wp_register_script( 'progo', get_bloginfo('template_url') .'/js/progo-frontend.js', array('jquery'), '1.0' );
+		wp_enqueue_script( 'cufon-yui', get_bloginfo('template_url') .'/js/cufon-yui.js', array('jquery'), '1.09i', true );
+		wp_enqueue_script( 'MrsEavesItalic', get_bloginfo('template_url') .'/js/MrsEavesItalic_italic_500.font.js', array('cufon-yui'), false, true );
+		wp_enqueue_script( 'MrsEavesSmallCaps', get_bloginfo('template_url') .'/js/MrsEavesSmallCaps_400.font.js', array('cufon-yui'), false, true );
+		
+		wp_register_script( 'progo', get_bloginfo('template_url') .'/js/progo-frontend.js', array('jquery', 'cufon-yui'), '1.0' );
 		wp_enqueue_script( 'progo' );
+		
 		do_action('progo_frontend_scripts');
 	}
 }
@@ -444,8 +438,8 @@ function progo_options_defaults() {
 	update_option( 'large_size_w', 584 );
 	update_option( 'large_size_h', 354 );
 	// set embed size
-	update_option( 'embed_size_w', 584 );
-	update_option( 'embed_size_h', 354 );
+	update_option( 'embed_size_w', 589 );
+	update_option( 'embed_size_h', 373 );
 }
 
 if ( ! function_exists( 'progo_options_validate' ) ):
@@ -714,7 +708,11 @@ function progo_realestate_init() {
 			'new_item_name' => 'New Feature Name',
 			'menu_name' => 'Rec. Features'
 		),
-		'public' => true
+		'public' => true,
+		'rewrite' => array(
+			'slug' => 'properties/features',
+			'with_front' => false
+		)
 	  ));	
 	// Property Locations will be another custom taxonomy
 	register_taxonomy('progo_locations',array('progo_property'), array(
@@ -774,6 +772,9 @@ function progo_property_memberboxes() {
 
 function progo_property_box() {
 	global $post;
+	$custom = get_post_meta($post->ID,'_progo_featured');
+	$feat = $custom[0];
+	
 	$custom = get_post_meta($post->ID,'_progo_property');
 	$inf = $custom[0];
 	if($inf=='') $inf = array(
@@ -785,7 +786,6 @@ function progo_property_box() {
 			'state' => '',
 			'zip' => ''
 		),
-		'featured' => '',
 		'bullets' => '',
 		'brochure' => '',
 		'vimeo' => '',
@@ -794,7 +794,7 @@ function progo_property_box() {
 	?>
     <table>
     <tr valign="top"><td width="50%">
-    <p><input class="checkbox" type="checkbox" <?php checked($inf[featured], 'yes') ?> name="progo_property[featured]" value="yes" /> <label for="progo_property[featured]"> Featured Property?</label></p>
+    <p><input class="checkbox" type="checkbox" <?php checked($feat, 'yes') ?> name="progo_featured" value="yes" /> <label for="progo_featured"> Featured Property?</label></p>
     <p><label for="progo_property[price]"><strong>Price</strong></label><br />$ <input type="text" name="progo_property[price]" value="<?php echo absint($inf[price]); ?>" size="18" /></p>
     <p><label for="progo_property[acres]"><strong>Acreage</strong> <em>(deeded acres)</em></label><br />
 <input type="text" name="progo_property[acres]" value="<?php echo absint($inf[acres]); ?>" size="20" /></p>
@@ -850,10 +850,13 @@ function progo_property_save_meta($post_id){
 	}
 	
 	// OK, we're authenticated: we need to find and save the data
-	$inf = $_POST['progo_property'];
-	if ( $inf[featured] != 'yes' ) {
-		$inf[featured] = 'no';
+	$inf = $_POST['progo_featured'];
+	if ( $inf != 'yes' ) {
+		$inf = 'no';
 	}
+	update_post_meta($post_id, "_progo_featured", $inf);
+	
+	$inf = $_POST['progo_property'];
 	$inf[vimeo] = esc_url($inf[vimeo]);
 	foreach( array('price','acres','brochure','gall') as $f) {
 		$inf[$f] = absint($inf[$f]);
@@ -974,6 +977,7 @@ function progo_realestate_get_posts( $query ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query[post_type] = 'progo_property';
 	} elseif ( strpos( $query->query_vars[pagename], 'properties/' ) === 0 ) {
+		
 		$lastslash = strrpos( $query->query_vars[pagename], '/' ) + 1;
 		$pagename = substr( $query->query_vars[pagename], $lastslash );
 		$query->query_vars[progo_property] = $query->query_vars[name] = $query->query[progo_property] = $query->query[name] = $pagename;
@@ -982,6 +986,7 @@ function progo_realestate_get_posts( $query ) {
 		$query->is_single = 1;
 		$query->is_page = '';
 		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
+		
 	} elseif ( $query->query_vars[pagename] == 'properties' ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query_vars[meta_query] = array();
@@ -993,6 +998,8 @@ function progo_realestate_get_posts( $query ) {
 		$query->query = array(
 			'post_type' => 'progo_property'
 		);
+	} elseif ( isset( $query->query_vars[progo_recfeatures] ) ) {
+		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
 	}
 	
 	//wp_die('<pre>'.print_r($query,true).'</pre>');
@@ -1025,8 +1032,8 @@ function progo_realestate_columns($column){
 			echo number_format( (float) $custom[0][acres] );
 			break;
 		case "feat":
-			$custom = get_post_meta($post->ID,'_progo_property');
-			if ( $custom[0][featured] == 'yes' ) {
+			$custom = get_post_meta($post->ID,'_progo_featured');
+			if ( $custom[0] == 'yes' ) {
 				echo '<img src="'. get_bloginfo('template_url') .'/images/star.png" alt="yes" />';
 			} else {
 				echo '<img src="'. get_bloginfo('template_url') .'/images/star_off.png" alt="no" />';
@@ -1047,4 +1054,11 @@ function progo_property_edit_columns($columns){
   );
  
   return $columns;
+}
+
+function progo_searchposts($query) {
+	if ($query->is_search) {
+		$query->set('post_type', 'post');
+	}
+	return $query;
 }

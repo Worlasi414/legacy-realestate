@@ -35,27 +35,12 @@ foreach ( $tags as $t ) {
 <tr><td><strong>Price :</strong></td><td>$<?php echo number_format( (float) $prop[price] ); ?></td></tr>
 <tr><td><strong>Acreage :</strong></td><td><?php echo number_format( (float) $prop[acres] ); ?> deeded acres</td></tr>
 </table>
-<ul id="rec">
+<ul class="rec">
 <?php
 $features = get_the_terms($post->ID,'progo_recfeatures');
 foreach ( $features as $f ) {
 	echo '<li id="f'. $f->term_id .'"><a title="'. esc_attr($f->name) .'">'. esc_html($f->name) .'</a></li>';
 }
-/*
-[14] => stdClass Object
-        (
-            [term_id] => 14
-            [name] => Horse Property
-            [slug] => horse-property
-            [term_group] => 0
-            [term_taxonomy_id] => 14
-            [taxonomy] => progo_recfeatures
-            [description] => 
-            [parent] => 0
-            [count] => 2
-            [object_id] => 100
-        )
-*/
 ?>
 </ul>
 <ul>
@@ -69,11 +54,11 @@ echo str_replace('<br />','</li><li>',nl2br(wp_kses($prop[bullets],array())));
 </div>
 <div id="pmedia">
 <ul id="mtabs">
-<li id="mt0"><a href="#mphotos">View Photos</a></li>
+<li id="mt0"><a href="#mphotos" title="Photos">View Photos</a></li>
 <?php if ( strlen( $prop[vimeo] ) > 0 ) { ?>
-<li id="mt1"><a href="#mvideo">MWP Video</a></li>
+<li id="mt1"><a href="#mvideo" title="Video">MWP Video</a></li>
 <?php } ?>
-<li id="mt2"><a href="#map">Location</a></li>
+<li id="mt2"><a href="#map" title="Location">Location</a></li>
 </ul>
 <div class="mtab on" id="mphotos">
 <?php if ( absint($prop[gall]) > 0 ) {
