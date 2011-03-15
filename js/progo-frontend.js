@@ -38,7 +38,17 @@ jQuery(function($) {
 		propJS($);
 	}
 	
-	Cufon.replace('#topnav, #desc', { fontFamily: 'MrsEavesItalic' });
+	$('#topnav ul li:first-child').addClass('f').parent().prev().addClass('f').bind('mouseover',function() {
+		$(this).parent().addClass('over');
+	}).parent().bind('mouseleave',function() {
+		$(this).removeClass('over');
+	});
+	
+	$('#ftabs a').click(function() {
+		return false;
+	});
+	
+	Cufon.replace('#topnav > li > a, #desc, #ftabs', { fontFamily: 'MrsEavesItalic' });
 	Cufon.replace('#mtabs', { fontFamily: 'MrsEavesSmallCaps' });
 	Cufon.now();
 });

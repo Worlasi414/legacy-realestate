@@ -20,7 +20,9 @@ get_header();
 the_content();
 edit_post_link('Edit this entry.', '<p>', '</p>');
 ?>
-<?php endwhile; ?>
+<?php endwhile;
+get_sidebar('filter');
+?>
 </div><!-- #left -->
 <?php
 global $wp_query;
@@ -47,12 +49,12 @@ foreach ( $tags as $t ) {
 		echo ' | <a href="'. get_bloginfo('url') .'/properties/features/'. $t->slug .'/" title="View '. esc_attr($t->name) .' Properties">'. esc_html($t->name) .'</a>';
 		if($tagcount-- == 1) echo '...';
 	} else return;
-}
-?>
+} ?>
+<a href="<?php the_permalink(); ?>" class="view" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">VIEW</a>
 </div>
 </div>
 </div>
-<div id="main" role="main" class="props">
+<div id="main" role="main" class="props home">
 <h2 class="ptitle">Featured Properties</h2>
 <?php
 get_template_part( 'loop', 'properties' );

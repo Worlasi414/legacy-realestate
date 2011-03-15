@@ -29,6 +29,8 @@ single_cat_title();
 echo ' Property</h1>';
 echo category_description();
 }
+
+get_sidebar('filter');
 ?>
 </div>
 			<div id="main" role="main" class="props">

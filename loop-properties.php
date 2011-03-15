@@ -31,10 +31,10 @@
 
 <?php while ( have_posts() ) : the_post(); ?>
 		<div id="post-<?php the_ID(); ?>" class="listing">
-			<h3 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_post_thumbnail('post-thumbnail', array('class'=>'thm alignleft')); the_title(); ?></a></h3>
+			<h3 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_post_thumbnail('post-thumbnail', array('class'=>'thm alignleft')); the_title(); ?></a></h3>
 			<?php the_excerpt(); ?>
-            <a href="<?php the_permalink(); ?>" class="ilnk" title="<?php printf( esc_attr__( 'Permalink to %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">Property Info</a>
-            <a href="<?php the_permalink(); ?>" class="view" title="<?php printf( esc_attr__( 'Permalink to %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">VIEW</a>
+            <a href="<?php the_permalink(); ?>" class="ilnk" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">Property Info</a>
+            <a href="<?php the_permalink(); ?>" class="view" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">VIEW</a>
 <ul class="rec">
 <?php
 $features = get_the_terms($post->ID,'progo_recfeatures');

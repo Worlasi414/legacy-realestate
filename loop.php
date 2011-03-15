@@ -106,7 +106,7 @@
 			</div><!-- .entry -->
 		<?php else : ?>
 			<div class="entry">
-				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'progo' ) ); ?>
+				<?php the_content( __( 'MORE', 'progo' ) ); ?>
 			</div><!-- .entry -->
 		<?php endif; ?>
 
@@ -130,7 +130,7 @@
 			</div><!-- .entry -->
 	<?php else : ?>
 			<div class="entry">
-				<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'progo' ) ); ?>
+				<?php the_content( __( 'MORE', 'progo' ) ); ?>
 				<?php wp_link_pages( array( 'before' => '<div class="page-link">' . __( 'Pages:', 'progo' ), 'after' => '</div>' ) ); ?>
 			</div><!-- .entry -->
 	<?php endif; ?>

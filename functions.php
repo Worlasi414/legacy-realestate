@@ -60,7 +60,7 @@ function progo_setup() {
 	// add custom filters
 	add_filter( 'default_content', 'progo_set_default_body' );
 	add_filter( 'site_transient_update_themes', 'progo_update_check' );
-	add_filter('body_class','progo_bodyclasses');
+	add_filter('body_class','progo_bodyclasses', 100 );
 	add_filter( 'post_type_link', 'progo_realestate_links', 10, 3 );
 	add_filter("manage_edit-progo_property_columns", "progo_property_edit_columns"); 
 	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
@@ -873,7 +873,17 @@ function progo_property_save_meta($post_id){
 }
 
 function progo_bodyclasses($classes) {
-	if(is_archive() || is_single() ) $classes[] = 'blog';
+	if( ( is_archive() || is_single() ) && ( get_post_type() == 'post' ) ) {
+		$classes[] = 'blog';
+		$classes[] = 'rcol';
+	}
+	
+	if( in_array( $classes[0], array('page', 'blog') ) ) {
+		$classes[] = 'rcol';
+	}
+	
+	//wp_die('<pre>'. print_r($classes,true) .'</pre>');
+	
 	return $classes;
 }
 
@@ -1062,3 +1072,9 @@ function progo_searchposts($query) {
 	}
 	return $query;
 }
+
+
+function progo_hr( $atts ) {
+	return '<div class="hr"></div>';
+}
+add_shortcode( 'hr', 'progo_hr' );

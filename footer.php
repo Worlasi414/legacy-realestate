@@ -15,7 +15,7 @@
 <div id="ftxt">
 <?php
 $options = get_option( 'progo_options' );
-esc_html_e($options['companyinfo']);
+echo wp_kses(nl2br($options['companyinfo']), array('br'=>array()));
 ?>
 </div>
 	<ul id="ftr" class="container_12">
