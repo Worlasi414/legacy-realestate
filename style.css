@@ -111,7 +111,7 @@ ul#topnav li a { float: left; padding: 0 22px; color: #392412; font: 18px/21px A
 ul#topnav li.over a.f { height: 47px; background: url(images/toptab.png) no-repeat 50% 37px; z-index:11 }
 #topnav li.current-menu-item a, body.blog #topnav li#menu-item-34 a, #topnav li.current-page-ancestor a, #topnav li a:hover { background: url(images/hdr_on.png) repeat-x 0 0; }
 ul#topnav ul { display: none; }
-ul#topnav li.over ul { display: block; position: absolute; top: 47px; left: 0; list-style: none; margin: 0; padding: 20px; width: 192px; z-index:10; background-color: #EFE5D2; -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5); box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5); }
+ul#topnav li.over ul { display: block; position: absolute; top: 47px; left: 0; list-style: none; margin: 0; padding: 20px; width: 192px; z-index:10; background-color: #EFE5D2; -moz-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5); }
 ul#topnav li ul li { float: none; padding: 3px 0; border-bottom: 1px dashed #cdc4b2; }
 ul#topnav li ul li.f { border-top: 1px dashed #cdc4b2 }
 ul#topnav li ul li a { padding: 0; float: none; font-size: 12px; font-family: Georgia, "Times New Roman", Times, serif; }
