@@ -51,6 +51,8 @@ class ProGo_Widget_Social extends WP_Widget {
 		$facebook = strip_tags($instance['facebook']);
 		$twitter = strip_tags($instance['twitter']);
 		$youtube = strip_tags($instance['youtube']);
+		$vimeo = strip_tags($instance['vimeo']);
+		$linkedin = strip_tags($instance['linkedin']);
 		$rss = $instance['rss'] == 'yes' ? 'yes' : 'no';
 		
 		echo $before_widget;
@@ -78,6 +80,20 @@ class ProGo_Widget_Social extends WP_Widget {
 				'text' => 'Watch us on YouTube'
 			);
 		}
+		if ( $vimeo != '' ) {
+			$items[] = array(
+				'url' => $vimeo,
+				'class' => 'vm',
+				'text' => 'Watch us on Vimeo'
+			);
+		}
+		if ( $linkedin != '' ) {
+			$items[] = array(
+				'url' => $linkedin,
+				'class' => 'in',
+				'text' => 'Join us on LinkedIn'
+			);
+		}
 		if ( $rss == 'yes' ) {
 			$items[] = array(
 				'url' => get_bloginfo('rss2_url'),
@@ -103,11 +119,13 @@ class ProGo_Widget_Social extends WP_Widget {
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		
-		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'facebook' => '', 'twitter' => '', 'youtube' => '', 'rss' => 'no') );
+		$new_instance = wp_parse_args( (array) $new_instance, array( 'title' => '', 'facebook' => '', 'twitter' => '', 'youtube' => '', 'vimeo' => '', 'linkedin' => '', 'rss' => 'no') );
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['facebook'] = strip_tags($new_instance['facebook']);
 		$instance['twitter'] = strip_tags($new_instance['twitter']);
 		$instance['youtube'] = strip_tags($new_instance['youtube']);
+		$instance['vimeo'] = strip_tags($new_instance['vimeo']);
+		$instance['linkedin'] = strip_tags($new_instance['linkedin']);
 		$instance['rss'] = $new_instance['rss'] == 'yes' ? 'yes' : 'no';
 
 		return $instance;
@@ -118,16 +136,20 @@ class ProGo_Widget_Social extends WP_Widget {
 	 * @since 1.0
 	 */
 	function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'facebook' => '', 'twitter' => '', 'youtube' => '', 'rss' => 'yes') );
+		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'facebook' => '', 'twitter' => '', 'youtube' => '', 'vimeo' => '', 'linkedin' => '', 'rss' => 'yes') );
 		$title = strip_tags($instance['title']);
 		$fb = strip_tags($instance['facebook']);
 		$tw = strip_tags($instance['twitter']);
 		$yt = strip_tags($instance['youtube']);
+		$vm = strip_tags($instance['vimeo']);
+		$in = strip_tags($instance['linkedin']);
 ?>
 		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
 		<p><label for="<?php echo $this->get_field_id('facebook'); ?>"><?php _e('Facebook URL:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('facebook'); ?>" name="<?php echo $this->get_field_name('facebook'); ?>" type="text" value="<?php echo esc_attr($fb); ?>" /></p>
 		<p><label for="<?php echo $this->get_field_id('twitter'); ?>"><?php _e('Twitter @name:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('twitter'); ?>" name="<?php echo $this->get_field_name('twitter'); ?>" type="text" value="<?php echo esc_attr($tw); ?>" /></p>
 		<p><label for="<?php echo $this->get_field_id('youtube'); ?>"><?php _e('YouTube Channel URL:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('youtube'); ?>" name="<?php echo $this->get_field_name('youtube'); ?>" type="text" value="<?php echo esc_attr($yt); ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id('vimeo'); ?>"><?php _e('Vimeo URL:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('vimeo'); ?>" name="<?php echo $this->get_field_name('vimeo'); ?>" type="text" value="<?php echo esc_attr($vm); ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id('linkedin'); ?>"><?php _e('LinkedIn URL:'); ?></label> <input class="widefat" id="<?php echo $this->get_field_id('linkedin'); ?>" name="<?php echo $this->get_field_name('linkedin'); ?>" type="text" value="<?php echo esc_attr($in); ?>" /></p>
         <p><input class="checkbox" type="checkbox" <?php checked($instance['rss'], 'yes') ?> id="<?php echo $this->get_field_id('rss'); ?>" name="<?php echo $this->get_field_name('rss'); ?>" value="yes" /> <label for="<?php echo $this->get_field_id('rss'); ?>"><?php _e('Include RSS Link'); ?></label></p>
 <?php
 	}

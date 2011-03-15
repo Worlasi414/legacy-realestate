@@ -21,13 +21,12 @@ get_header(); ?>
 
 					<div class="entry-utility">
             <div class="alignleft">
-				<?php progo_posted_on(); ?><br />
+				<?php progo_posted_on(); edit_post_link( __( 'Edit Post', 'progo' ), ' : ', '' ); ?><br />
 				<?php if ( count( get_the_category() ) ) : ?>
 					<span class="cat-links">
 						<?php printf( __( '<span class="%1$s">Posted in</span> %2$s', 'progo' ), 'entry-utility-prep entry-utility-prep-cat-links', get_the_category_list( ', ' ) ); ?>
 					</span>
 				<?php endif; ?>
-				<?php edit_post_link( __( 'Edit Post', 'progo' ), ' : ', '' ); ?>
                 </div>
                 <div class="alignright">
  <?php if (function_exists('sharethis_button')) { sharethis_button(); } ?>

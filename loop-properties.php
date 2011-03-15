@@ -32,7 +32,14 @@
 <?php while ( have_posts() ) : the_post(); ?>
 		<div id="post-<?php the_ID(); ?>" class="listing">
 			<h3 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_post_thumbnail('post-thumbnail', array('class'=>'thm alignleft')); the_title(); ?></a></h3>
-			<?php the_excerpt(); ?>
+            <?php
+			$custom = get_post_meta($post->ID,'_progo_property');
+			$prop = $custom[0];
+			$prop[acres] = (float) $prop[acres];
+			if($prop[acres] > 0) { ?>
+            <h5><?php echo number_format((float) $prop[acres], 2 ); ?> deeded acres</h5>
+			<?php }
+			the_excerpt(); ?>
             <a href="<?php the_permalink(); ?>" class="ilnk" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">Property Info</a>
             <a href="<?php the_permalink(); ?>" class="view" title="<?php printf( esc_attr__( 'View %s', 'progo' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark">VIEW</a>
 <ul class="rec">

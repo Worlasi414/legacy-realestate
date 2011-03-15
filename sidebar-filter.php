@@ -9,8 +9,8 @@
 ?>
 <div id="filter">
 <ul id="ftabs">
-<li class="first">Properties</li>
-<li>Options</li>
+<li class="first on"><a href="#fprops">Ranches For Sale</a></li>
+<li><a href="#fsearch" title="Coming Soon">Filter Results</a></li>
 </ul>
 <div class="ftab" id="fprops">
 <ul>

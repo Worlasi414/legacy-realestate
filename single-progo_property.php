@@ -16,8 +16,8 @@ $prop = $custom[0];
 ?>
 
 <div id="nav-above" class="navigation">
-    <div class="back"><?php previous_post_link( '%link', '&laquo; PREVIOUS PROPERTY' ); ?></div>
-    <div class="next"><?php next_post_link( '%link', 'NEXT PROPERTY &raquo;'); ?></div>
+    <div class="back"><?php next_post_link( '%link', '&laquo; PREVIOUS PROPERTY' ); ?></div>
+    <div class="next"><?php previous_post_link( '%link', 'NEXT PROPERTY &raquo;'); ?></div>
 </div><!-- #nav-above -->
 <div id="main" role="main" class="prop">
 <?php the_content();?>
@@ -33,7 +33,7 @@ foreach ( $tags as $t ) {
 }
 ?></td></tr>
 <tr><td><strong>Price :</strong></td><td>$<?php echo number_format( (float) $prop[price] ); ?></td></tr>
-<tr><td><strong>Acreage :</strong></td><td><?php echo number_format( (float) $prop[acres] ); ?> deeded acres</td></tr>
+<tr><td><strong>Acreage :</strong></td><td><?php echo number_format((float) $prop[acres], 2 ); ?> deeded acres</td></tr>
 </table>
 <ul class="rec">
 <?php
@@ -45,7 +45,7 @@ foreach ( $features as $f ) {
 </ul>
 <ul>
 <li><?php
-echo str_replace('<br />','</li><li>',nl2br(wp_kses($prop[bullets],array())));
+echo str_replace('<br /> ','</li><li>',trim( preg_replace( '/\s+/', ' ', nl2br(wp_kses($prop[bullets],array())))));
 ?></li>
 </ul>
 <div id="plnx">

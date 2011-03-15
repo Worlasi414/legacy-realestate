@@ -25,7 +25,10 @@ dynamic_sidebar( 'contact' );
 		$parentid = $post->ancestors[0];
 	}
 	//now see if we have any sub menu
-	$children = get_pages('child_of='. $parentid);
+	$children = get_pages(array(
+		'sort_column' => 'menu_order',
+		'child_of' => $parentid
+	));
 	if(count($children) > 0) { ?>
 		<div class="block"><ul class="snav"><?php
 		foreach($children as $p) {

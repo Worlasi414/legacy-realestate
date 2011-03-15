@@ -66,6 +66,8 @@ function progo_setup() {
 	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
 	add_filter('the_content', 'progo_realestate_content_filter');
 	add_filter('pre_get_posts','progo_searchposts');
+	add_filter('get_the_excerpt','progo_excerpt');
+	add_filter('post_limits', 'progo_listings_limit');
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -117,19 +119,23 @@ function progo_realestate_content_filter($content) {
 	if ( get_post_type() == 'progo_property' ) {
 		// prep work to separate H5s into TABS
 		$tabs = explode('<h5>',$content);
-		$tabbed = '<div id="propcontent">';
-		$switch = '</div><ul id="tabs">';
-		foreach ( $tabs as $t ) {
-			if ( strlen($t) > 0 ) {
-				$h5c = strpos( $t, '</h5>' );
-				$title = wp_kses( substr( $t, 0, $h5c ), array() );
-				$anchor = sanitize_title_with_dashes($title);
-				$body = substr( $t, $h5c + 5 );
-				$tabbed .= '<div id="'. $anchor .'" class="tab"><a name="'. $anchor .'"></a>'. $body .'</div>';
-				$switch .= '<li><a href="#'. $anchor .'">'. $title .'</a></li>';
+		if(count($tabs) > 1) {
+			$tabbed = '<div id="propcontent">';
+			$switch = '</div><ul id="tabs">';
+			foreach ( $tabs as $t ) {
+				if ( strlen($t) > 0 ) {
+					$h5c = strpos( $t, '</h5>' );
+					$title = wp_kses( substr( $t, 0, $h5c ), array() );
+					$anchor = sanitize_title_with_dashes($title);
+					$body = substr( $t, $h5c + 5 );
+					$tabbed .= '<div id="'. $anchor .'" class="tab"><a name="'. $anchor .'"></a>'. $body .'</div>';
+					$switch .= '<li><a href="#'. $anchor .'">'. $title .'</a></li>';
+				}
 			}
+			$content = $tabbed . $switch .'</ul>';
+		} else {
+			$content = '<div id="propcontent">'. $content .'</div>';	
 		}
-		$content = $tabbed . $switch .'</ul>';
 	}
 	return $content;
 }
@@ -797,7 +803,7 @@ function progo_property_box() {
     <p><input class="checkbox" type="checkbox" <?php checked($feat, 'yes') ?> name="progo_featured" value="yes" /> <label for="progo_featured"> Featured Property?</label></p>
     <p><label for="progo_property[price]"><strong>Price</strong></label><br />$ <input type="text" name="progo_property[price]" value="<?php echo absint($inf[price]); ?>" size="18" /></p>
     <p><label for="progo_property[acres]"><strong>Acreage</strong> <em>(deeded acres)</em></label><br />
-<input type="text" name="progo_property[acres]" value="<?php echo absint($inf[acres]); ?>" size="20" /></p>
+<input type="text" name="progo_property[acres]" value="<?php echo (float) $inf[acres]; ?>" size="20" /></p>
 <p><strong>Location</strong><br />
 <label for="progo_loc[addr]">Street Address</label><br />
 <input type="text" name="progo_loc[addr]" value="<?php echo esc_attr($inf[loc][addr]); ?>" size="50" /></p>
@@ -858,9 +864,10 @@ function progo_property_save_meta($post_id){
 	
 	$inf = $_POST['progo_property'];
 	$inf[vimeo] = esc_url($inf[vimeo]);
-	foreach( array('price','acres','brochure','gall') as $f) {
+	foreach( array('price','brochure','gall') as $f) {
 		$inf[$f] = absint($inf[$f]);
 	}
+	$inf[acres] = (float) $inf[acres];
 	foreach( array('location','bullets') as $f) {
 		$inf[$f] = strip_tags($inf[$f]);
 	}
@@ -1078,3 +1085,33 @@ function progo_hr( $atts ) {
 	return '<div class="hr"></div>';
 }
 add_shortcode( 'hr', 'progo_hr' );
+
+function progo_excerpt( $excerpt ) {
+	global $post;
+	if ( get_post_type() != 'progo_property' ) return $excerpt;
+	
+	$noot = str_replace('<h5>Location</h5>','', $post->post_content);
+	$noot = wp_kses($noot, array());
+	$noot = trim( preg_replace( '/\s+/', ' ', $noot ) );  
+	if( strlen($noot) > 282 ) {
+		$noot = substr( $noot, 0, 282 );
+		$noot = substr( $noot, 0, strrpos($noot, ' ')) .'...';
+	}
+	return $noot;
+}
+
+function progo_listings_limit($limit){
+	$perPage = 6; // The number of posts per page
+	
+	$page = $GLOBALS['wp_query']->query_vars['paged'];
+	
+	if(!$page){
+		$page = 1;
+	}
+	
+	if($GLOBALS['wp_query']->query[post_type] == 'progo_property'){
+		return "LIMIT ".(($page-1)*$perPage).", ".$perPage;
+	}
+	
+	return $limit;
+}
