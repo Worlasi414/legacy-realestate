@@ -42,7 +42,44 @@ get_sidebar('filter');
 	 * If you want to overload this in a child theme then include a file
 	 * called loop-archives.php and that will be used instead.
 	 */
-	 get_template_part( 'loop', 'properties' );
+	global $wp_query;
+	$newquery = array();
+	if( isset($wp_query->query_vars[price]) ) {
+		$newquery[meta_query] = array(
+			array(
+				'key' => '_progo_pricegroup',
+				'value' => $wp_query->query_vars[price],
+				'compare' => 'IN'
+			)
+		);
+	}
+	if( isset($wp_query->query_vars[acres]) ) {
+		if( !isset($newquery[meta_query]) ) {
+			$newquery[meta_query] = array();
+		}
+		$newquery[meta_query][] = array(
+			'key' => '_progo_acregroup',
+			'value' => $wp_query->query_vars[acres],
+			'compare' => 'IN'
+		);
+	}
+	
+	if( isset($wp_query->query_vars[rec]) ) {
+		$recs = $wp_query->query_vars[rec];
+		$feats = '';
+		for ( $i=0; $i < count($recs); $i++ ) {
+			if($i>0) $feats .= '+';
+			$term = get_term((int) $recs[$i], 'progo_recfeatures');
+			$feats .= $term->slug;
+		}
+		$newquery['progo_recfeatures'] = $feats;
+	}
+	if( count($newquery) > 0 ) {
+		$args = array_merge( $wp_query->query, $newquery );
+		query_posts($args);
+	}
+		echo '<pre style="display:none">'. print_r($wp_query,true) .'</pre>';
+	get_template_part( 'loop', 'properties' );
 ?>
 
 			</div><!-- #main -->

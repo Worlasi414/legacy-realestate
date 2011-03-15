@@ -91,10 +91,7 @@ sup, sub { height: 0; line-height: 1; position: relative; vertical-align: baseli
 sup { bottom: 1ex;}
 sub { top: .5ex;}
 input[type="text"], input.text, textarea { background: #fff; border: 1px solid #ccc; box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); padding: 2px;}
-input.text, textarea { width: 163px; }
-span.shipping_region_name, span.shipping_country_name { background: #fff; border: 1px solid #ccc; box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); padding: 2px; float: left; height: 17px; margin-bottom: 10px; width: 163px; font-weight: normal; cursor: default}
-.zip input.text {width:58px;}
-input.text.need { border-color: #f00; }
+
 a { color: #47A59F }
 
 .screen-reader-text { position: absolute; left: -9000px; }
@@ -133,11 +130,9 @@ h1.entry-title, h2.entry-title { margin-bottom: 9px }
 body.wpsc-shopping-cart .entry { margin: 17px 10px 0 0; padding: 0; }
 .entry fieldset { border: 1px solid #e7e7e7; margin: 0 0 24px 0; padding: 24px;}
 .entry fieldset legend { background: #fff; color: #000; font-weight: bold; padding: 0 24px;}
-.entry input { margin: 0 0 24px 0;}
 .entry .adjustform input, .entry .product_form input { margin-bottom: 10px; display: block; }
 .entry input.file, .entry input.button { margin-right: 24px;}
 .entry label { color: #888; font-size: 12px;}
-.entry select { margin: 0 0 24px 0;}
 .entry sup, .entry sub { font-size: 10px;}
 .entry blockquote.left { float: left; margin-left: 0; margin-right: 24px; text-align: right; width: 33%;}
 .entry blockquote.right { float: right; margin-left: 24px; margin-right: 0; text-align: left; width: 33%;}
@@ -274,8 +269,11 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 #left { margin-top: 23px; padding-top: 355px; position: relative }
 #left h1 { font: 18px/22px Georgia, "Times New Roman", Times, serif; }
 
-#filter { display: block; width: 245px; height: 338px; position: absolute; top: 0; left: 6px; background: url(images/filter.png) no-repeat 0 0; padding: 0 25px 0 20px; font-family: Georgia, "Times New Roman", Times, serif }
+#filter { display: block; width: 250px; height: 338px; position: absolute; top: 0; left: 6px; background: url(images/filter.png) no-repeat 0 0; padding: 0 20px; font-family: Georgia, "Times New Roman", Times, serif }
+#filter.t2 { background-position: 100% 0; }
 #filter ul { list-style: none; margin: 0; padding: 0; }
+#filter .ftab { display: none; }
+#filter .ftab.on { display: block; }
 #filter .ftab ul li a { display: block; border-top: 1px dashed #d4d1c8; padding: 8px 0 10px; color: #4b2c13; text-decoration: none; background: url(images/filtera.gif) no-repeat 100% 50% }
 #filter .ftab ul li a.all { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #a3532a; padding-top: 2px; background: none }
 #filter ul#ftabs { padding: 7px 0 40px; }
@@ -283,6 +281,10 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 #ftabs li a { color: #392412; text-decoration: none; opacity: 0.6 }
 #ftabs li.on a { opacity: 1 }
 #ftabs li.first { width: 151px; }
+#fsearch .title { display: block; padding-bottom: 5px; border-bottom: 1px dashed #e7e5dd; margin-bottom: 10px; }
+#fsearch .col, #fsearch label { float: left; width: 124px; font-size: 11px; line-height:15px }
+#fsearch label input { margin: 0; }
+#fsearch .col { margin-bottom: 10px; }
 
 #plnx { position: absolute; left: 16px; bottom:31px; } 
 #plnx a { float: left; width: 188px; height: 21px; background: url(images/plnx-email.png) no-repeat 0 0; color: #fff; font: bold 10px/14px Arial, Helvetica, sans-serif; text-transform: uppercase; padding: 5px 0 0 29px; text-decoration: none; margin-top: 7px }

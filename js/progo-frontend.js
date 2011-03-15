@@ -83,6 +83,16 @@ jQuery(function($) {
 	});
 	
 	$('#ftabs a').click(function() {
+		var par = $(this).parent();
+		if(par.hasClass('on') == false) {
+			par.addClass('on').siblings().removeClass('on');
+			if(par.hasClass('first') ) {
+				par.parent().parent().removeClass('t2');
+			} else {
+				par.parent().parent().addClass('t2');
+			}
+			$($(this).attr('href')).addClass('on').siblings('.ftab').removeClass('on');
+		}
 		return false;
 	});
 	

@@ -63,6 +63,7 @@ function progo_setup() {
 	add_filter('body_class','progo_bodyclasses', 100 );
 	add_filter( 'post_type_link', 'progo_realestate_links', 10, 3 );
 	add_filter("manage_edit-progo_property_columns", "progo_property_edit_columns"); 
+	add_filter( 'query_vars', 'progo_queryvars' );
 	add_filter( 'pre_get_posts', 'progo_realestate_get_posts' );
 	add_filter('the_content', 'progo_realestate_content_filter');
 	add_filter('pre_get_posts','progo_searchposts');
@@ -867,7 +868,37 @@ function progo_property_save_meta($post_id){
 	foreach( array('price','brochure','gall') as $f) {
 		$inf[$f] = absint($inf[$f]);
 	}
+	// save _progo_pricegroup for better filtering
+	$pricegroup = 0;
+	if($inf[price] < 1000000) {
+		$pricegroup = 1;
+	} elseif($inf[price] <= 3000000) {
+		$pricegroup = 2;
+	} elseif($inf[price] <= 5000000) {
+		$pricegroup = 3;
+	} elseif($inf[price] <= 10000000) {
+		$pricegroup = 4;
+	} else {
+		$pricegroup = 5;
+	}
+	update_post_meta($post_id, "_progo_pricegroup", $pricegroup);
+	
 	$inf[acres] = (float) $inf[acres];
+	// save _progo_acregroup for better filtering
+	$acregroup = 0;
+	if($inf[acres] < 10000) {
+		$acregroup = 1;
+	} elseif($inf[acres] <= 20000) {
+		$acregroup = 2;
+	} elseif($inf[acres] <= 40000) {
+		$acregroup = 3;
+	} elseif($inf[acres] <= 80000) {
+		$acregroup = 4;
+	} else {
+		$acregroup = 5;
+	}
+	update_post_meta($post_id, "_progo_acregroup", $acregroup);
+	
 	foreach( array('location','bullets') as $f) {
 		$inf[$f] = strip_tags($inf[$f]);
 	}
@@ -989,21 +1020,19 @@ function progo_realestate_links( $permalink, $post, $leavename ) {
 	return $permalink;
 }
 
+function progo_queryvars( $qvars ) {
+	$qvars[] = 'price';
+	$qvars[] = 'acres';
+	$qvars[] = 'rec';
+	return $qvars;
+}
+
 function progo_realestate_get_posts( $query ) {
+	if( is_admin() ) return $query;
+	
 	if ( isset($query->query_vars[progo_locations]) ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query[post_type] = 'progo_property';
-	} elseif ( strpos( $query->query_vars[pagename], 'montana-properties-for-sale/' ) === 0 ) {
-		
-		$lastslash = strrpos( $query->query_vars[pagename], '/' ) + 1;
-		$pagename = substr( $query->query_vars[pagename], $lastslash );
-		$query->query_vars[progo_property] = $query->query_vars[name] = $query->query[progo_property] = $query->query[name] = $pagename;
-		unset($query->query[pagename]);
-		$query->query_vars[pagename] = '';
-		$query->is_single = 1;
-		$query->is_page = '';
-		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
-		
 	} elseif ( $query->query_vars[pagename] == 'montana-properties-for-sale' ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query_vars[meta_query] = array();
@@ -1015,12 +1044,21 @@ function progo_realestate_get_posts( $query ) {
 		$query->query = array(
 			'post_type' => 'progo_property'
 		);
+	} elseif ( strpos( $query->query_vars[pagename], 'montana-properties-for-sale/' ) === 0 ) {
+		
+		$lastslash = strrpos( $query->query_vars[pagename], '/' ) + 1;
+		$pagename = substr( $query->query_vars[pagename], $lastslash );
+		$query->query_vars[progo_property] = $query->query_vars[name] = $query->query[progo_property] = $query->query[name] = $pagename;
+		unset($query->query[pagename]);
+		$query->query_vars[pagename] = '';
+		$query->is_single = 1;
+		$query->is_page = '';
+		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
+		
 	} elseif ( isset( $query->query_vars[progo_recfeatures] ) ) {
 		$query->query_vars[post_type] = $query->query[post_type] = 'progo_property';
 	}
-	
 	//wp_die('<pre>'.print_r($query,true).'</pre>');
-
 	return $query;
 }
 
@@ -1101,6 +1139,8 @@ function progo_excerpt( $excerpt ) {
 }
 
 function progo_listings_limit($limit){
+	if(is_admin()) return $limit;
+	
 	$perPage = 6; // The number of posts per page
 	
 	$page = $GLOBALS['wp_query']->query_vars['paged'];
