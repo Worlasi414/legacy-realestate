@@ -356,7 +356,7 @@ function progo_realestate_widgets() {
 		'name' => 'Newsletter Signup',
 		'id' => 'signup',
 		'description' => 'Widget-powered area on bottom left of Homepage',
-		'before_widget' => '<div class="block %1$s %2$s">',
+		'before_widget' => '<div class="%1$s %2$s">',
 		'after_widget' => '</div>',
 		'before_title' => '<h3 class="title">',
 		'after_title' => '</h3>'

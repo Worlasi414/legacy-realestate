@@ -22,6 +22,7 @@ edit_post_link('Edit this entry.', '<p>', '</p>');
 ?>
 <?php endwhile;
 get_sidebar('filter');
+dynamic_sidebar('signup');
 ?>
 </div><!-- #left -->
 <?php

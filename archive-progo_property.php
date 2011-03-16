@@ -31,6 +31,7 @@ echo category_description();
 }
 
 get_sidebar('filter');
+dynamic_sidebar('signup');
 ?>
 </div>
 			<div id="main" role="main" class="props">
@@ -78,7 +79,6 @@ get_sidebar('filter');
 		$args = array_merge( $wp_query->query, $newquery );
 		query_posts($args);
 	}
-		echo '<pre style="display:none">'. print_r($wp_query,true) .'</pre>';
 	get_template_part( 'loop', 'properties' );
 ?>
 
