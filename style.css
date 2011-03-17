@@ -26,11 +26,10 @@ body, input, textarea, .pingback a.url { font-family: Arial, Helvetica, sans-ser
 /* =Layout */
 body { background: #fff url(images/bg-bottom.jpg) repeat 50% 802px;}
 #fx, #sfx { float: left; width: 100%; min-width: 982px; height: 802px; background: #fff url(images/randombg.php) no-repeat 50% 133px;  }
-#sfx { height: 133px; background: url(images/bg-top.jpg) repeat-x 50% 0; }
+#sfx { height: 133px; background: url(images/bg-top.jpg) repeat-x 50% 0; position: relative; z-index: 1 }
 #wrap { width: 982px; margin: 0 auto; }
-#page { float: left; width: 100%; }
-#container { float: left; padding: 0 11px; background: url(images/page-mid.png) repeat-y 0 0; position: relative; min-height: 650px }
-body.rcol #container { background-image: url(images/pageD-mid.png); padding-top: 13px}
+#page { float: left; padding: 0 11px 21px; background: url(images/page-mid.png) repeat-y 0 0; position: relative; z-index: 1; min-height: 650px }
+body.rcol #page { background-image: url(images/pageD-mid.png); padding-top: 13px}
 #main { float:left; }
 
 #topimg { float: left; width: 650px; height: 413px; }
@@ -92,7 +91,7 @@ sup { bottom: 1ex;}
 sub { top: .5ex;}
 input[type="text"], input.text, textarea { background: #fff; border: 1px solid #ccc; box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -moz-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); -webkit-box-shadow: inset 1px 1px 1px rgba(0,0,0,0.1); padding: 2px;}
 
-a { color: #47A59F }
+a { color: #000 }
 
 .screen-reader-text { position: absolute; left: -9000px; }
 
@@ -324,3 +323,11 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 .navigation a { font: bold 10px/13px Arial, Helvetica, sans-serif; color: #392412; text-decoration: none; }
 
 .hr { float: left; width: 100%; margin: 0 0 17px; border-top: 1px dashed #bebab0; height: 1px }
+
+/* homepage cycle */
+#ibg { display: block; width: 100%; min-width: 982px; height: 669px; overflow: hidden; position: relative; z-index: 0; }
+#ibg img { position: absolute; top: 0; left: 50%; margin-left: -900px; z-index:0; }
+
+input.btn67 { border: none; width: 67px; height: 22px; font-size: 13px; font-family: Georgia, "Times New Roman", Times, serif; color: #fff; text-align: center; cursor: pointer; background: url(images/btn67.png); margin-top: 12px }
+
+#mc_embed_signup input.txt { width: 215px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 11px; margin-bottom: 8px }

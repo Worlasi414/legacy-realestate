@@ -42,11 +42,10 @@
 <body <?php body_class(); ?>>
 <div id="fx"><div id="sfx">
 <div id="wrap">
-	<div id="page">
         <div id="hdr"><a name="top"></a>
             <a href="<?php bloginfo('url'); ?>/" id="logo"><?php esc_html_e( get_bloginfo( 'name' ) ); ?></a>
             <div id="desc"><?php esc_html_e($site_description); ?></div>
 <?php wp_nav_menu( array( 'container' => false, 'menu_id' => 'topnav', 'theme_location' => 'topnav' ) ); ?>
         </div>
         
-        <div id="container" class="container_12">
+        <div id="page" class="container_12">

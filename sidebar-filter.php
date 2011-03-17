@@ -28,7 +28,7 @@ foreach ( $feats as $k => $v ) {
 	echo '<li><a href="'. get_bloginfo('url') .'/montana-properties-for-sale/features/'. $k .'/">'. $v .'</a></li>';
 }
 ?>
-<li><a href="<?php bloginfo('url'); ?>/properties/" class="all">View All Properties</a></li>
+<li><a href="<?php bloginfo('url'); ?>/montana-properties-for-sale/" class="all">View All Properties</a></li>
 </ul>
 </div>
 <div class="ftab" id="fsearch">
@@ -90,7 +90,7 @@ echo '<div class="col">';
 		}
 		echo '</div>';
 ?>
-<input type="submit" value="Search" />
+<input type="submit" value="Search" class="btn67" />
 </form>
 </div>
 </div>

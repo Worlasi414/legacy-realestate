@@ -22,7 +22,6 @@ echo wp_kses(nl2br($options['companyinfo']), array('br'=>array()));
     <?php dynamic_sidebar('footer'); ?>
 	</ul><!-- #ftr -->
 </div><!-- #fwrap -->
-	</div><!-- #page -->
 </div><!-- #wrap -->
 </div></div>
 <?php

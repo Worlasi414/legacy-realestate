@@ -1,6 +1,9 @@
 // js for front end of ProGo Themes RealEstate sites
+var progo_hcycle;
+var progo_hcycle_seconds = 6;
+var progo_rbg;
 
-function propJS($) {
+function progo_props($) {
 	$('#main .tab').hide();
 	$('#tabs a').click(function() {
 		$(this).parent().addClass('on').siblings('.on').removeClass();
@@ -71,9 +74,24 @@ function propJS($) {
 	}
 }
 
+function progo_bgcycle() {
+	var i = jQuery('#ibg img');
+	if(i.is(':hidden')) {
+		i.fadeIn(600,function() {
+			jQuery('#fx').css('background-image','url('+progo_rbg+')');
+		});
+	} else {
+		i.fadeOut(600,function() {
+			jQuery(this).attr('src',progo_rbg);
+		});
+	}
+	
+	progo_hcycle = setTimeout(progo_bgcycle, progo_hcycle_seconds * 1000);
+}
+
 jQuery(function($) {
 	if($('#main').hasClass('prop')) {
-		propJS($);
+		progo_props($);
 	}
 	
 	$('#topnav ul li:first-child').addClass('f').parent().prev().addClass('f').bind('mouseover',function() {
@@ -99,4 +117,10 @@ jQuery(function($) {
 	Cufon.replace('#topnav > li > a, #desc, #ftabs', { fontFamily: 'MrsEavesItalic' });
 	Cufon.replace('#mtabs', { fontFamily: 'MrsEavesSmallCaps' });
 	Cufon.now();
+	
+	if($('body').hasClass('home')) {
+		progo_rbg = $('#logo').attr('href') + '/wp-content/themes/realestate/images/randombg.php';
+		$('<img src="'+ progo_rbg + '" />').fadeOut(100).wrap('<div id="ibg" />').parent().appendTo('#fx');
+		progo_hcycle = setTimeout(progo_bgcycle, progo_hcycle_seconds * 1000);
+	}
 });

@@ -118,6 +118,7 @@ endif;
 if ( ! function_exists( 'progo_realestate_content_filter' ) ):
 function progo_realestate_content_filter($content) {
 	if ( get_post_type() == 'progo_property' ) {
+		$deallinks = '<a onclick="newWin=window.open(\''. get_permalink(401) .'\', \'mwpop\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=480,height=480,left=50,top=50\'); return false;" href="#">Cooperative Broker Guidelines</a> &nbsp; &nbsp;|&nbsp; &nbsp; <a onclick="newWin=window.open(\''. get_permalink(404) .'\', \'mwpop\', \'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=480,height=480,left=50,top=50\'); return false;" href="#">Agency Disclosure Statement</a>';
 		// prep work to separate H5s into TABS
 		$tabs = explode('<h5>',$content);
 		if(count($tabs) > 1) {
@@ -133,9 +134,9 @@ function progo_realestate_content_filter($content) {
 					$switch .= '<li><a href="#'. $anchor .'">'. $title .'</a></li>';
 				}
 			}
-			$content = $tabbed . $switch .'</ul>';
+			$content = $tabbed . $deallinks . $switch .'</ul>';
 		} else {
-			$content = '<div id="propcontent">'. $content .'</div>';	
+			$content = '<div id="propcontent">'. $content . $deallinks .'</div>';	
 		}
 	}
 	return $content;

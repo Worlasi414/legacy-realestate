@@ -18,11 +18,10 @@ get_header(); ?>
 global $wp_query;
 if ( count($wp_query->query) == 1 ) { ?>
 <h1>Montana Ranches For Sale</h1>
-<h4>KEYWORD HEADLINE GOES RIGHT HERE</h4>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla nisi eu nulla ultrices vitae adipiscing lorem adipiscing. Donec orci arcu, consequat eget hendrerit quis, viverra sit amet ante. Donec vel viverra quam. Quisque at arcu ac urna ornare cursus a et turpis. Quisque nunc ante, elementum at congue tincidunt, tincidunt ac elit. Donec a massa nulla, eget pretium massa. Morbi sem odio, facilisis ut dictum quis, malesuada convallis tortor. Ut lobortis turpis eu quam viverra id fringilla lorem congue. Aliquam quis velit turpis. Morbi ullamcorper enim ut sapien tempus porttitor.</p>
-<p>Morbi consequat tincidunt sagittis. Nulla non risus sit amet. Morbi consequat tincidunt sagittis. Nulla non risus sit amet.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fringilla nisi eu nulla ultrices vitae adipiscing lorem adipiscing. Donec orci arcu, consequat eget hendrerit quis, viverra sit amet ante. Donec vel viverra quam. Quisque at arcu ac urna ornare cursus a et turpis. Quisque nunc ante, elementum at congue tincidunt, tincidunt ac elit. Donec a massa nulla, eget pretium massa. Morbi sem odio, facilisis ut dictum quis, malesuada convallis tortor. Ut lobortis turpis eu quam viverra id fringilla lorem congue. Aliquam quis velit turpis. Morbi ullamcorper enim ut sapien tempus porttitor.</p>
-<p>Morbi consequat tincidunt sagittis. Nulla non risus sit amet. Morbi consequat tincidunt sagittis. Nulla non risus sit amet.</p>
+<h4>Check Out What We Have To Offer</h4>
+<p>Welcome to Montana Western Properties! This company was founded on the principles of hard work, honesty, and dedication to our clients. We understand the needs of our clients and continually strive to make sure our efforts secure for them their desired results.</p>
+<p>Our area is such a wonderful part of the country and we are happy to share its' assets in hopes that you will want to visit and maybe make this your home too!</p>
+<p>We combine years of experience and service to provide you with everything to enjoy all the opportunities our region has to offer. Many people look to our area for hunting and fishing. Many like to view wildlife and just take in all that nature has in store. Others are interested in hiking and exploring the vast wilderness areas we have here. Whatever the pursuit, we hope to show you what is available and help you find the property that is absolutely right for you!</p>
 <?php } else {
 echo '<h1>';
 single_cat_title();
@@ -44,7 +43,14 @@ dynamic_sidebar('signup');
 	 * called loop-archives.php and that will be used instead.
 	 */
 	global $wp_query;
-	$newquery = array();
+	$newquery = array(
+		'orderby' => 'menu_order',
+		'order' => 'ASC'
+	);
+	if( isset($wp_query->query_vars[paged]) ) {
+		$newquery[paged] = $wp_query->query_vars[paged];
+	}
+	
 	if( isset($wp_query->query_vars[price]) ) {
 		$newquery[meta_query] = array(
 			array(
