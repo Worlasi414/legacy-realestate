@@ -718,7 +718,7 @@ function progo_realestate_init() {
 		),
 		'public' => true,
 		'rewrite' => array(
-			'slug' => 'montana-properties-for-sale/features',
+			'slug' => 'land-in-montana/features',
 			'with_front' => false
 		)
 	  ));	
@@ -736,7 +736,7 @@ function progo_realestate_init() {
 		),
 		'public' => true,
 		'rewrite' => array(
-			'slug' => 'montana-properties-for-sale',
+			'slug' => 'land-in-montana',
 			'with_front' => false
 		)
 	  ));
@@ -766,7 +766,7 @@ function progo_realestate_init() {
 			'register_meta_box_cb' => 'progo_property_memberboxes',
 			'has_archive' => true,
 			'rewrite' => array(
-				'slug' => 'montana-properties-for-sale/%progo_locations%/',
+				'slug' => 'land-in-montana/%progo_locations%/',
 				'with_front' => false
 			)
 		)
@@ -961,7 +961,7 @@ function progo_realestate_links( $permalink, $post, $leavename ) {
 	$permalink_structure = get_option( 'permalink_structure' );
 	// This may become customiseable later
 
-	$our_permalink_structure = "montana-properties-for-sale/%progo_locations%/%postname%/";
+	$our_permalink_structure = "land-in-montana/%progo_locations%/%postname%/";
 	// Mostly the same conditions used for posts, but restricted to items with a post type of "wpsc-product "
 
 	if ( '' != $permalink_structure && !in_array( $post->post_status, array( 'draft', 'pending' ) ) ) {
@@ -1007,7 +1007,7 @@ function progo_realestate_links( $permalink, $post, $leavename ) {
 
 		$post_name = $post->post_name;
 
-		if(isset($category_slug) && empty($category_slug)) $category_slug = 'montana-properties-for-sale';
+		if(isset($category_slug) && empty($category_slug)) $category_slug = 'land-in-montana';
 
 		$rewritereplace = array(
 			$category_slug,
@@ -1034,7 +1034,7 @@ function progo_realestate_get_posts( $query ) {
 	if ( isset($query->query_vars[progo_locations]) ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query[post_type] = 'progo_property';
-	} elseif ( $query->query_vars[pagename] == 'montana-properties-for-sale' ) {
+	} elseif ( $query->query_vars[pagename] == 'land-in-montana' ) {
 		$query->query_vars[post_type] = 'progo_property';
 		$query->query_vars[meta_query] = array();
 		//unset($query->tax_query);
@@ -1045,7 +1045,7 @@ function progo_realestate_get_posts( $query ) {
 		$query->query = array(
 			'post_type' => 'progo_property'
 		);
-	} elseif ( strpos( $query->query_vars[pagename], 'montana-properties-for-sale/' ) === 0 ) {
+	} elseif ( strpos( $query->query_vars[pagename], 'land-in-montana/' ) === 0 ) {
 		
 		$lastslash = strrpos( $query->query_vars[pagename], '/' ) + 1;
 		$pagename = substr( $query->query_vars[pagename], $lastslash );

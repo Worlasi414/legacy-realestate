@@ -9,8 +9,8 @@
 ?>
 <div id="filter">
 <ul id="ftabs">
-<li class="first on"><a href="#fprops">Ranches For Sale</a></li>
-<li><a href="#fsearch">Filter Results</a></li>
+<li class="first on"><a href="#fprops">Properties For Sale</a></li>
+<li><a href="#fsearch">Options</a></li>
 </ul>
 <div class="ftab on" id="fprops">
 <ul>
@@ -21,32 +21,33 @@ $feats = array(
 	'mountain-property' => 'Mountain Property',
 	'waterfront' => 'Waterfront Property',
 	'residential' => 'Residential Property',
+	'commercial' => 'Commercial Property',
 	'farm-land-for-sale' => 'Cattle Ranch',
 	'horse-property-for-sale' => 'Horse Property'
 );
 foreach ( $feats as $k => $v ) {
-	echo '<li><a href="'. get_bloginfo('url') .'/montana-properties-for-sale/features/'. $k .'/">'. $v .'</a></li>';
+	echo '<li><a href="'. get_bloginfo('url') .'/land-in-montana/features/'. $k .'/">'. $v .'</a></li>';
 }
 ?>
-<li><a href="<?php bloginfo('url'); ?>/montana-properties-for-sale/" class="all">View All Properties</a></li>
+<li><a href="<?php bloginfo('url'); ?>/land-in-montana/" class="all">View All Properties</a></li>
 </ul>
 </div>
 <div class="ftab" id="fsearch">
 <?php global $wp_query; ?>
 <form action="<?php
 if ( is_front_page() ) {
-	echo get_bloginfo('url') .'/montana-properties-for-sale/';
+	echo get_bloginfo('url') .'/land-in-montana/';
 } else {
 	echo "http://" . $_SERVER['HTTP_HOST']  . $_SERVER['REQUEST_URI'];
 } ?>" method="get">
 <div class="col"><div class="title">Price</div>
 <?php
 $prices = array(
-	1 => '&lt; 1 million',
-	2 => '1-3 million',
-	3 => '3-5 million',
-	4 => '5-10 million',
-	5 => '10+ million'
+	1 => 'Less than $200K',
+	2 => '$201K to $400K',
+	3 => '$401K to $600K',
+	4 => '$601K to $1 Million',
+	5 => '$1 Million Plus'
 );
 foreach ( $prices as $k => $v ) {
 	echo '<label for="price['. absint($k) .']"><input type="checkbox" name="price[]" value="'. absint($k) .'"';
@@ -60,11 +61,11 @@ foreach ( $prices as $k => $v ) {
 <div class="col"><div class="title">Acreage</div>
 <?php
 $acres = array(
-	1 => '&lt; 10k acres',
-	2 => '10k - 20k acres',
-	3 => '20k - 40k acres',
-	4 => '40k - 80k acres',
-	5 => '80k - 100k+ acres'
+	1 => '10 Acres or less',
+	2 => '11 to 50 Acres',
+	3 => '51 to 100 Acres',
+	4 => '101 to 500 Acres',
+	5 => '501 or more Acres'
 );
 foreach ( $acres as $k => $v ) {
 	echo '<label for="acres['. absint($k) .']"><input type="checkbox" name="acres[]" value="'. absint($k) .'"';

@@ -199,7 +199,7 @@ body.page .edit-link { display: block }
 /* footer */
 #fwrap { float:left; width: 982px; background: url(images/page-end.png) no-repeat 0 0; }
 body.rcol #fwrap { background-image: url(images/pageD-end.png); }
-#ftxt { margin: 8px 0; font-size: 11px; line-height:16px; border-bottom: 1px dashed #bdb49c; padding: 0 0 15px; }
+#ftxt { margin: 8px 0; font-size: 12px; line-height:16px; border-bottom: 1px dashed #bdb49c; padding: 0 0 15px; }
 #fwrap ul { list-style: none; margin: 0; padding: 0; }
 #ftr, #ftr a { color: #333; text-decoration: none; }
 #ftr li { float: left; margin: 0; padding: 0; list-style: none; background: url(images/ful.png) repeat-y 100% 0; }
@@ -273,8 +273,8 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 #filter ul { list-style: none; margin: 0; padding: 0; }
 #filter .ftab { display: none; }
 #filter .ftab.on { display: block; }
-#filter .ftab ul li a { display: block; border-top: 1px dashed #d4d1c8; padding: 8px 0 10px; color: #4b2c13; text-decoration: none; background: url(images/filtera.gif) no-repeat 100% 50% }
-#filter .ftab ul li a.all { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #a3532a; padding-top: 2px; background: none }
+#filter .ftab ul li a { display: block; border-top: 1px dashed #d4d1c8; padding: 6px 0 8px 0; color: #4b2c13; text-decoration: none; background: url(images/filtera.gif) no-repeat 100% 50% }
+#filter .ftab ul li a.all { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #a3532a; padding-top: 8px; background: none }
 #filter ul#ftabs { padding: 7px 0 40px; }
 #ftabs li { float: left; font-size: 18px; }
 #ftabs li a { color: #392412; text-decoration: none; opacity: 0.6 }

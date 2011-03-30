@@ -46,7 +46,7 @@
 <?php
 $features = get_the_terms($post->ID,'progo_recfeatures');
 foreach ( $features as $f ) {
-	echo '<li id="f'. $f->term_id .'"><a title="View '. esc_attr($f->name) .' Properties" href="'. get_bloginfo('url') .'/montana-properties-for-sale/features/'. $f->slug .'/">'. esc_html($f->name) .'</a></li>';
+	echo '<li id="f'. $f->term_id .'"><a title="View '. esc_attr($f->name) .' Properties" href="'. get_bloginfo('url') .'/land-in-montana/features/'. $f->slug .'/">'. esc_html($f->name) .'</a></li>';
 }
 ?>
 </ul>

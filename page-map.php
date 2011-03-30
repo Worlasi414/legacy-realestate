@@ -19,7 +19,7 @@ the_content();
 ?>
 <p id="map"><img src="<?php bloginfo('template_url'); ?>/images/map.png" alt="Interactive Map Coming Soon" title="Interactive Map Coming Soon" width="535" height="363" border="0" usemap="#mwpMap" /></p>
 <map name="mwpMap" id="mwpMap">
-  <area shape="poly" coords="82,227,102,205,89,172,112,149,109,104,129,82,144,100,169,112,204,187,184,212,197,225,191,299,129,312,99,277" href="../montana-properties-for-sale/gold-west-country/" alt="Gold West Country" />
+  <area shape="poly" coords="82,227,102,205,89,172,112,149,109,104,129,82,144,100,169,112,204,187,184,212,197,225,191,299,129,312,99,277" href="../land-in-montana/gold-west-country/" alt="Gold West Country" />
 </map>
 </div><!-- .entry -->
 </div><!-- #post-## -->
