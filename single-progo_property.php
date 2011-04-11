@@ -49,6 +49,12 @@ echo str_replace('<br /> ','</li><li>',trim( preg_replace( '/\s+/', ' ', nl2br(w
 ?></li>
 </ul>
 <div id="plnx">
+<?php
+$prop['brochure'] = absint($prop['brochure']);
+if($prop['brochure'] > 0) {
+	$pdf = get_post($prop['brochure']);
+	echo '<a href="'. $pdf->guid .'" target="_blank" class="dl">Download Property Brochure</a>';
+} ?>
 <a href="<?php echo get_permalink(41); ?>">Email us about this property</a>
 </div>
 </div>

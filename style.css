@@ -287,6 +287,7 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 
 #plnx { position: absolute; left: 16px; bottom:31px; } 
 #plnx a { float: left; width: 188px; height: 21px; background: url(images/plnx-email.png) no-repeat 0 0; color: #fff; font: bold 10px/14px Arial, Helvetica, sans-serif; text-transform: uppercase; padding: 5px 0 0 29px; text-decoration: none; margin-top: 7px }
+#plnx a.dl { background-image: url(images/plnx-dl.png); }
 
 #pmedia { display: block; width: 606px; height: 439px; padding: 0 0 0 14px; position: absolute; top: 0; right: 0; background: url(images/pmedia.png) no-repeat 0 0; }
 #pmedia.t1 { background-image: url(images/pmedia2.png); }

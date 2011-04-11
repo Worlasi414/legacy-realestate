@@ -818,7 +818,21 @@ function progo_property_box() {
 <input type="text" name="progo_loc[zip]" value="<?php echo esc_attr($inf[loc][zip]); ?>" size="10" /></p></td></tr>
 </table>
 <p><label for="progo_property[brochure]"><strong>Brochure</strong></label><br />
-<select name="progo_property[brochure]" style="width:97%"><option value="">- please select -</option></select></p>
+<select name="progo_property[brochure]" style="width:97%"><option value="">- please select -</option><?php
+$args = array(
+	'post_type' => 'attachment',
+	'post_mime_type' => 'application/pdf',
+	'numberposts' => null,
+	'post_status' => null,
+	'post_parent' => $post->ID
+);
+$attachments = get_posts($args);
+foreach ( $attachments as $pdf ) {
+	echo '<option value="'. $pdf->ID .'"';
+	if ( $inf[brochure] == $pdf->ID ) echo ' selected="selected"';
+	echo '>'. esc_attr($pdf->post_title) .'</option>';
+}
+?></select></p>
 <p class="howto"><a title="Add Media" class="thickbox" href="media-upload.php?post_id=<?php echo $post->ID; ?>&amp;TB_iframe=1&amp;width=640&amp;height=281">Upload a new file</a>. If you have just uploaded a new file, first <a href="#save" onclick="jQuery('#save,#save-post').click(); return false;">Save</a> the page to see your new file in the dropdown.</p>
 <p><label for="progo_property[vimeo]"><strong>Vimeo Video URL</strong> <em>( <?php
 	if ( strpos($inf[vimeo],'http://vimeo.com/')===0 && strlen($inf[vimeo])==25 ) {
