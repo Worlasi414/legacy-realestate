@@ -59,8 +59,16 @@ echo '<pre style="display:none">'. print_r($custom,true) .'</pre>';
 
 <?php /* Display navigation to next/previous pages when applicable */ ?>
 <?php if (  $wp_query->max_num_pages > 1 ) : ?>
-				<div id="nav-below" class="navigation">
-					<div class="back"><?php previous_posts_link( '&laquo; PREVIOUS PAGE' ); ?></div>
-					<div class="next"><?php next_posts_link( 'NEXT PAGE &raquo;' ); ?></div>
-				</div><!-- #nav-below -->
+<div id="nav-below" class="navigation"><div class="back"><?php previous_posts_link( '&laquo; PREVIOUS PAGE' ); ?></div><div class="next"><?php next_posts_link( 'NEXT PAGE &raquo;' ); ?></div>&nbsp; <?php
+$baseurl = "http://" . $_SERVER['HTTP_HOST']  . $_SERVER['REQUEST_URI'];
+if ( $wp_query->query['paged'] > 1 ) {
+$baseurl = substr( $baseurl, 0, strrpos( $baseurl, '/page/' ) );
+}
+for ( $i=1; $i <= $wp_query->max_num_pages; $i++ ) {
+echo '&nbsp;<a href="'. $baseurl . ( $i > 1 ? '/page/'. $i : '') .'/"';
+if( ( $wp_query->query['paged'] == $i ) || ( ( $wp_query->query['paged'] < 2 ) && ( $i == 1 ) ) ) {
+echo ' class="on"';
+}
+echo '>'. ($i < 10 ? '0' : '') . $i .'</a>&nbsp; ';
+} ?>&nbsp;</div><!-- #nav-below -->
 <?php endif; ?>

@@ -37,7 +37,8 @@ function progo_setup() {
 	
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'topnav' => 'Top Navigation'
+		'topnav' => 'Top Navigation',
+		'filtercats' => 'Property Filter Categories'
 	) );
 	
 	// This theme uses post thumbnails
@@ -68,7 +69,6 @@ function progo_setup() {
 	add_filter('the_content', 'progo_realestate_content_filter');
 	add_filter('pre_get_posts','progo_searchposts');
 	add_filter('get_the_excerpt','progo_excerpt');
-	add_filter('post_limits', 'progo_listings_limit');
 	
 	if ( !is_admin() ) {
 		// brick it if not activated
@@ -1067,6 +1067,9 @@ function progo_realestate_columns($column){
 	global $post;
 	
 	switch ($column) {
+		case "order":
+			echo $post->menu_order;
+			break;
 		case "loc":
 			$tags = get_the_terms($post->ID,'progo_locations');
 			// http://www.ninthlink.net/mwp/wp-admin/edit.php?progo_locations=gold-west-country&post_type=progo_property
@@ -1106,7 +1109,8 @@ function progo_property_edit_columns($columns){
     "price" => "Price",
     "acres" => "Acreage",
     "loc" => "Location",
-    "date" => "Date"
+    "date" => "Date",
+    "order" => "Order"
   );
  
   return $columns;
@@ -1137,22 +1141,4 @@ function progo_excerpt( $excerpt ) {
 		$noot = substr( $noot, 0, strrpos($noot, ' ')) .'...';
 	}
 	return $noot;
-}
-
-function progo_listings_limit($limit){
-	if(is_admin()) return $limit;
-	
-	$perPage = 6; // The number of posts per page
-	
-	$page = $GLOBALS['wp_query']->query_vars['paged'];
-	
-	if(!$page){
-		$page = 1;
-	}
-	
-	if($GLOBALS['wp_query']->query[post_type] == 'progo_property'){
-		return "LIMIT ".(($page-1)*$perPage).", ".$perPage;
-	}
-	
-	return $limit;
 }

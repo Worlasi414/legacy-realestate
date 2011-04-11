@@ -273,8 +273,8 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 #filter ul { list-style: none; margin: 0; padding: 0; }
 #filter .ftab { display: none; }
 #filter .ftab.on { display: block; }
-#filter .ftab ul li a { display: block; border-top: 1px dashed #d4d1c8; padding: 6px 0 8px 0; color: #4b2c13; text-decoration: none; background: url(images/filtera.gif) no-repeat 100% 50% }
-#filter .ftab ul li a.all { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #a3532a; padding-top: 8px; background: none }
+#filter .ftab ul li a, #filter .ftab a.allprops { display: block; border-top: 1px dashed #d4d1c8; padding: 6px 0 8px 0; color: #4b2c13; text-decoration: none; background: url(images/filtera.gif) no-repeat 100% 50% }
+#filter .ftab a.allprops { font-size: 10px; font-weight: bold; text-transform: uppercase; color: #a3532a; padding-top: 2px; background: none }
 #filter ul#ftabs { padding: 7px 0 40px; }
 #ftabs li { float: left; font-size: 18px; }
 #ftabs li a { color: #392412; text-decoration: none; opacity: 0.6 }
@@ -317,10 +317,12 @@ a.button { display: block; width: 99px; height: 26px; padding-top: 5px; color: #
 #hnfo a.view { color: #fff; display: block; padding: 14px 0 0 10px; width: 58px; height: 29px; font: bold 11px/15px Georgia, "Times New Roman", Times, serif; background: url(images/harr.gif) no-repeat 49px 50%; position: absolute; top: 0; right:0 }
 
 .navigation { float: left; width: 914px; margin: 11px 18px; }
-.navigation#nav-below { width: 100%; margin: 0; padding: 11px 0; border-top: 1px dashed #beb9ae }
+.navigation#nav-below { width: 100%; margin: 0; padding: 11px 0; border-top: 1px dashed #beb9ae; text-align: center }
 .navigation div { float: left; }
 .navigation div.next { float: right; }
-.navigation a { font: bold 10px/13px Arial, Helvetica, sans-serif; color: #392412; text-decoration: none; }
+.navigation a { font: 11px/13px Arial, Helvetica, sans-serif; color: #392412; text-decoration: none; }
+.navigation a.on { font-weight: bold; }
+.navigation div a { font-weight: bold; font-size: 10px; }
 
 .hr { float: left; width: 100%; margin: 0 0 17px; border-top: 1px dashed #bebab0; height: 1px }
 

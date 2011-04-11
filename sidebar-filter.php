@@ -13,24 +13,8 @@
 <li><a href="#fsearch">Options</a></li>
 </ul>
 <div class="ftab on" id="fprops">
-<ul>
-<?php
-$feats = array(
-	'trout-fishing' => 'Fly-Fishing Property',
-	'montana-big-game-hunting' => 'Hunting Property',
-	'mountain-property' => 'Mountain Property',
-	'waterfront' => 'Waterfront Property',
-	'residential' => 'Residential Property',
-	'commercial' => 'Commercial Property',
-	'farm-land-for-sale' => 'Cattle Ranch',
-	'horse-property-for-sale' => 'Horse Property'
-);
-foreach ( $feats as $k => $v ) {
-	echo '<li><a href="'. get_bloginfo('url') .'/land-in-montana/features/'. $k .'/">'. $v .'</a></li>';
-}
-?>
-<li><a href="<?php bloginfo('url'); ?>/land-in-montana/" class="all">View All Properties</a></li>
-</ul>
+<?php wp_nav_menu( array( 'container' => false, 'theme_location' => 'filtercats' ) ); ?>
+<a href="<?php bloginfo('url'); ?>/land-in-montana/" class="allprops">View All Properties</a>
 </div>
 <div class="ftab" id="fsearch">
 <?php global $wp_query; ?>

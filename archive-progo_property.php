@@ -43,6 +43,7 @@ dynamic_sidebar('signup');
 	 * called loop-archives.php and that will be used instead.
 	 */
 	global $wp_query;
+	$wp_query->max_num_pages = 0;
 	$newquery = array(
 		'orderby' => 'menu_order',
 		'order' => 'ASC'
@@ -85,6 +86,7 @@ dynamic_sidebar('signup');
 		$args = array_merge( $wp_query->query, $newquery );
 		query_posts($args);
 	}
+	echo '<pre style="display:none">'. print_r($wp_query,true) .'</pre>';
 	get_template_part( 'loop', 'properties' );
 ?>
 
