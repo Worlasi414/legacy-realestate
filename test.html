@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+function bazinga(num) {
+	jQuery('#themap').attr('src','images/map/' + ((num==0) ? 'off' : num) + '.png');
+}
+</script>
+</head>
+
+<body>
+<img src="images/map/off.png" name="themap" width="535" height="357" border="0" usemap="#Map" id="themap" />
+<map name="Map" id="Map">
+  <area shape="poly" coords="8,10,164,18,164,45,149,48,147,58,117,58,132,78,125,103,112,103,112,123,117,130,117,148,92,168,97,198,105,203,67,238,57,231,57,165,15,113,2,71" href="#glacier" alt="Glacier Country" onmouseover="bazinga(1);" onmouseout="bazinga(0);" />
+  <area shape="poly" coords="83,225,128,310,192,301,198,223,182,216,200,193,207,193,210,180,195,153,178,143,170,111,132,78,125,103,112,103,112,123,117,130,117,148,92,168,97,198,105,203" href="#goldwest" alt="Gold West Country" onmouseover="bazinga(2);" onmouseout="bazinga(0);" />
+  <area shape="poly" coords="328,18,320,78,298,88,307,103,342,108,342,148,425,148,425,135,450,125,450,103,480,101,483,113,515,111,505,11" href="#missouri" alt="Missouri River Country" onmouseover="bazinga(3);" onmouseout="bazinga(0);" />
+  <area shape="poly" coords="164,18,164,45,149,48,147,58,117,58,132,78,170,111,178,143,195,153,210,180,207,193,282,190,285,158,345,158,342,148,342,108,307,103,298,88,320,78,328,18" href="#russell" alt="Russell Country" onmouseover="bazinga(4);" onmouseout="bazinga(0);" />
+  <area shape="poly" coords="270,190,275,203,300,198,313,253,335,253,323,273,215,276,212,308,195,291,198,223,182,216,200,193,207,193" href="#yellowstone" alt="Yellowstone Country" onmouseover="bazinga(5);" onmouseout="bazinga(0);" />
+  <area shape="poly" coords="515,111,483,113,480,101,450,103,450,125,425,135,425,148,342,148,345,158,285,158,282,190,270,190,275,203,300,198,313,253,335,253,323,273,525,263" href="#custer" alt="Custer Country" onmouseover="bazinga(6);" onmouseout="bazinga(0);" />
+</map>
+<h1 id="h1">testing</h1>
+</body>
+</html>
